@@ -28,7 +28,7 @@ namespace ForerunnerEngine
 {
     namespace ForerunnerWindow
     {
-        FR_API int32_t FR_CALL Initialize(Window* WindowPtr)
+        FR_API int32_t FR_CALL Initialize(FRWindow* WindowPtr)
         {
             int32_t operationSuccessful = 0;
 
@@ -46,7 +46,7 @@ namespace ForerunnerEngine
             return operationSuccessful;
         }
 
-        FR_API int32_t FR_CALL Create(Window* WindowPtr, uint32_t Width, uint32_t Height, const char* Title, const char* IconPath)
+        FR_API int32_t FR_CALL Create(FRWindow* WindowPtr, uint32_t Width, uint32_t Height, const char* Title, const char* IconPath)
         {
             int32_t operationSuccessful = 0;
 
@@ -203,7 +203,7 @@ namespace ForerunnerEngine
             return operationSuccessful;
         }
 
-        FR_API int32_t FR_CALL Destroy(Window* WindowPtr)
+        FR_API int32_t FR_CALL Destroy(FRWindow* WindowPtr)
         {
             int32_t operationSuccessful = 0;
 
@@ -219,7 +219,7 @@ namespace ForerunnerEngine
             return operationSuccessful;
         }
 
-        FR_API int32_t FR_CALL Resize(Window* WindowPtr, uint32_t Width, uint32_t Height)
+        FR_API int32_t FR_CALL Resize(FRWindow* WindowPtr, uint32_t Width, uint32_t Height)
         {
             int32_t operationSuccessful = 0;
             DWORD   errorCode           = 0;
@@ -252,7 +252,7 @@ namespace ForerunnerEngine
             return operationSuccessful;
         }
 
-        FR_API int32_t FR_CALL EnterFullscreen(Window* WindowPtr)
+        FR_API int32_t FR_CALL EnterFullscreen(FRWindow* WindowPtr)
         {
             int32_t operationSuccessful = 0;
             DWORD   errorCode = 0;
@@ -280,7 +280,7 @@ namespace ForerunnerEngine
             return operationSuccessful;
         }
 
-        FR_API int32_t FR_CALL ExitFullscreen(Window* WindowPtr)
+        FR_API int32_t FR_CALL ExitFullscreen(FRWindow* WindowPtr)
         {
             int32_t operationSuccessful = 0;
             DWORD returnCode = 0;
@@ -313,7 +313,7 @@ namespace ForerunnerEngine
             return operationSuccessful;
         }
 
-        FR_API int32_t FR_CALL IsWindowClosing(Window* WindowPtr)
+        FR_API int32_t FR_CALL IsWindowClosing(FRWindow* WindowPtr)
         {
             int32_t windowClosing = 1;
 
@@ -331,7 +331,7 @@ namespace ForerunnerEngine
             return windowClosing;
         }
 
-        FR_API int32_t FR_CALL SetWindowTitle(Window* WindowPtr, const char* Title)
+        FR_API int32_t FR_CALL SetWindowTitle(FRWindow* WindowPtr, const char* Title)
         {
             int32_t operationSuccessful = 0;
 
@@ -357,7 +357,7 @@ namespace ForerunnerEngine
             return operationSuccessful;
         }
 
-        FR_API int32_t FR_CALL SetWindowIcon(Window* WindowPtr, const char* IconPath)
+        FR_API int32_t FR_CALL SetWindowIcon(FRWindow* WindowPtr, const char* IconPath)
         {
             int32_t operationSuccessful = 0;
 
@@ -389,7 +389,7 @@ namespace ForerunnerEngine
             return operationSuccessful;
         }
 
-        FR_API int32_t FR_CALL SetWindowStyle(Window* WindowPtr, int32_t WindowStyle)
+        FR_API int32_t FR_CALL SetWindowStyle(FRWindow* WindowPtr, int32_t WindowStyle)
         {
             int32_t operationSuccessful = 0;
 
@@ -411,7 +411,7 @@ namespace ForerunnerEngine
             return operationSuccessful;
         }
 
-        FR_API int32_t FR_CALL SetWindowStyleExtended(Window* WindowPtr, int32_t WindowStyleExtended)
+        FR_API int32_t FR_CALL SetWindowStyleExtended(FRWindow* WindowPtr, int32_t WindowStyleExtended)
         {
             int32_t operationSuccessful = 0;
 
@@ -433,7 +433,7 @@ namespace ForerunnerEngine
             return operationSuccessful;
         }
 
-        FR_API int32_t FR_CALL SetWindowCursor(Window* WindowPtr, LPWSTR cursorSelection, const char *CursorPath)
+        FR_API int32_t FR_CALL SetWindowCursor(FRWindow* WindowPtr, LPWSTR cursorSelection, const char *CursorPath)
         {
             SetCursor(LoadCursor(WindowPtr->WindowInstance, cursorSelection));
 
@@ -470,14 +470,14 @@ namespace ForerunnerEngine
 LRESULT CALLBACK WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 {
     // Grab window object pointer
-    ForerunnerEngine::ForerunnerWindow::Window* thisWindowPtr = reinterpret_cast<ForerunnerEngine::ForerunnerWindow::Window*>(GetWindowLongPtr(handle, GWLP_USERDATA));
+    ForerunnerEngine::ForerunnerWindow::FRWindow* thisWindowPtr = reinterpret_cast<ForerunnerEngine::ForerunnerWindow::FRWindow*>(GetWindowLongPtr(handle, GWLP_USERDATA));
 
     switch (message)
     {
         case WM_NCCREATE:
         {
             // Get this pointer for the class to use
-            thisWindowPtr = static_cast<ForerunnerEngine::ForerunnerWindow::Window*>(reinterpret_cast<CREATESTRUCT*>(lParam)->lpCreateParams);
+            thisWindowPtr = static_cast<ForerunnerEngine::ForerunnerWindow::FRWindow*>(reinterpret_cast<CREATESTRUCT*>(lParam)->lpCreateParams);
 
             /// Reset all errors
             SetLastError(0);

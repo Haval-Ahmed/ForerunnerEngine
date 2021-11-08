@@ -15,7 +15,11 @@ namespace ForerunnerEngine
         #define FR_API
     #endif
 
-    #define FR_CALL __stdcall
+    #if defined(_WIN32)
+        #define FR_CALL __stdcall
+    #else 
+        #define FR_CALL
+    #endif
 }
 
 #endif // FR_WINDOW_H

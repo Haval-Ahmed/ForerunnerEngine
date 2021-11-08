@@ -22,6 +22,13 @@
 
 project(FRWindowLibrary C CXX)
 
+if (UNIX)
+    find_package(X11 REQUIRED)
+    message(STATUS "X11_FOUND       = ${X11_FOUND}")
+    message(STATUS "X11_INCLUDE_DIR = ${X11_INCLUDE_DIR}")
+    message(STATUS "X11_LIBRARIES   = ${X11_LIBRARIES}")
+endif()
+
 # Specify common files for target
 set (CommonWindowFiles Window.h)
 
@@ -29,24 +36,34 @@ set (CommonWindowFiles Window.h)
 if (WIN32)
     list (APPEND CommonWindowFiles Win32Window.h Win32Window.cpp)
 else()
-    list (APPEND CommonWindowFiles WaylandWindow.h WaylandWindow.cpp)
+    list (APPEND CommonWindowFiles X11Window.h X11Window.cpp)
 endif()
 
 # Create the target
 add_library (FRWindowLibrary STATIC ${CommonWindowFiles})
 
 # Specify includes for target
-set (TargetIncludeDirs ./ ../Config)
+set (TargetIncludeDirs ./ ../Config ../../../3rdParty/)
+
+if (UNIX)
+    list(APPEND TargetIncludeDirs ${X11_INCLUDE_DIR})
+endif()
 
 # Specify compile options for definition
 set (TargetCompileDefines)
+set (TargetCompileOptions)
+
+if (UNIX)
+    list(APPEND TargetCompileDefines )
+endif()
 
 if(MSVC)
-    list(APPEND TargetCompileDefines /Zi /W4)
+    list(APPEND TargetCompileOptions /Zi /W4)
 else()
-    list(APPEND TargetCompileDefines -fsanitize=address)
+    list(APPEND TargetCompileOptions)
 endif()
 
 # Define the target configuration in terms of compile options, directories, definitions, etc..
-target_compile_options(FRWindowLibrary PRIVATE ${TargetCompileDefines})
+target_compile_options(FRWindowLibrary PRIVATE ${TargetCompileOptions})
+target_compile_definitions(FRWindowLibrary PUBLIC ${TargetCompileDefines})
 target_include_directories(FRWindowLibrary PUBLIC ${TargetIncludeDirs})

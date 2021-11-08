@@ -18,6 +18,9 @@
         #define WIN32_LEAN_AND_MEAN
     #endif
     #include <Windows.h>
+#elif LINUX
+    #include <X11/Xlib.h>
+    #include <X11/Xutil.h>
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -30,7 +33,7 @@ namespace ForerunnerEngine
     namespace ForerunnerWindow
     {
         // Max number of callback functions - we can resize this value later once we have a better estimate
-        constexpr size_t MAX_CALLBACK_FUNCTIONS = 256;
+        constexpr uint32_t MAX_CALLBACK_FUNCTIONS = 256;
 
         // Declare callback function parameters
         using MouseMoveCallback                 = void(*)(uint32_t MouseCoordinateX, uint32_t MouseCoordinateY);
@@ -52,7 +55,7 @@ namespace ForerunnerEngine
             uint32_t    MonitorDPI;
         };
 
-        struct Window
+        struct FRWindow
         {
             uint32_t            ClientWidth;
             uint32_t            ClientHeight;
@@ -69,6 +72,13 @@ namespace ForerunnerEngine
                 RECT        ClientWindowRect;
                 int32_t     WindowStyle;
                 int32_t     ExtendedWindowStyle;
+            #else 
+	            Display*                XDisplay;
+                Window                  XWindow;
+                Screen*                 XScreen;
+                int32_t                 XScreenId;
+                XVisualInfo*            XVisual;
+                XSetWindowAttributes    XWindowAttributes;
             #endif
 
             MouseMoveCallback           MouseMoveCallbacks[MAX_CALLBACK_FUNCTIONS];
@@ -99,18 +109,18 @@ namespace ForerunnerEngine
             #endif
         };
 
-        extern FR_API int32_t FR_CALL Initialize(Window *WindowPtr);
-        extern FR_API int32_t FR_CALL Create(Window *WindowPtr, uint32_t Width, uint32_t Height, const char *Title = "", const char *IconPath = "");
-        extern FR_API int32_t FR_CALL Destroy(Window *WindowPtr);
-        extern FR_API int32_t FR_CALL Resize(Window *WindowPtr, uint32_t Width, uint32_t Height);
-        extern FR_API int32_t FR_CALL EnterFullscreen(Window *WindowPtr);
-        extern FR_API int32_t FR_CALL ExitFullscreen(Window *WindowPtr);
-        extern FR_API int32_t FR_CALL IsWindowClosing(Window *WindowPtr);
-        extern FR_API int32_t FR_CALL SetWindowTitle(Window* WindowPtr, const char *Title);
-        extern FR_API int32_t FR_CALL SetWindowIcon(Window* WindowPtr, const char *IconPath);
+        extern FR_API int32_t FR_CALL Initialize(FRWindow *WindowPtr);
+        extern FR_API int32_t FR_CALL Create(FRWindow *WindowPtr, uint32_t Width, uint32_t Height, const char *Title = "", const char *IconPath = "");
+        extern FR_API int32_t FR_CALL Destroy(FRWindow *WindowPtr);
+        extern FR_API int32_t FR_CALL Resize(FRWindow *WindowPtr, uint32_t Width, uint32_t Height);
+        extern FR_API int32_t FR_CALL EnterFullscreen(FRWindow *WindowPtr);
+        extern FR_API int32_t FR_CALL ExitFullscreen(FRWindow *WindowPtr);
+        extern FR_API int32_t FR_CALL IsWindowClosing(FRWindow *WindowPtr);
+        extern FR_API int32_t FR_CALL SetWindowTitle(FRWindow* WindowPtr, const char *Title);
+        extern FR_API int32_t FR_CALL SetWindowIcon(FRWindow* WindowPtr, const char *IconPath);
 
         #if _WIN32
-            extern FR_API int32_t FR_CALL SetWindowCursor(Window* WindowPtr, LPWSTR cursorSelection);
+            extern FR_API int32_t FR_CALL SetWindowCursor(FRWindow* WindowPtr, LPWSTR cursorSelection);
         #endif
 
         extern FR_API void FR_CALL RegisterForMouseMoveEvent(MouseMoveCallback CallbackFunction);

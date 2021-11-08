@@ -17,11 +17,6 @@
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/Install/${presetName}",
                 "CMAKE_CXX_STANDARD" : "17",
                 "CMAKE_CXX_STANDARD_REQUIRED" : "ON"
-            },
-            "architecture": 
-            {
-                "value": "x64",
-                "strategy": "set"
             }
         },
         {
@@ -29,6 +24,11 @@
             "description": "Windows x64 Configuration",
             "generator": "Visual Studio 17 2022",
             "inherits": [ "Base" ],
+            "architecture": 
+            {
+                "value": "x64",
+                "strategy": "set"
+            },
             "cacheVariables": 
             {
                 "CMAKE_BUILD_TYPE": "Debug",

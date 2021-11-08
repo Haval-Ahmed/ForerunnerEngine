@@ -39,6 +39,9 @@ CHECK_INCLUDE_FILES(pmmintrin.h HAVE_SSE3_SUPPORT)
 # Output the configured header file to our engine directory
 configure_file(ForerunnerEngineConfig.h.in Engine/ForerunnerEngineConfig.h)
 
+# Add our custom cmake directory to the cmake module path
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/CMake")
+
 # Specify project options
 option(ADDRESS_SANITIZER_ENABLED "Build this target with address sanitizer" ON)
 option(BUILD_UNIT_TESTS "Build unit tests for this project" ON)
