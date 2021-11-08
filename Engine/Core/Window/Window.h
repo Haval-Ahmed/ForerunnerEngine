@@ -76,7 +76,7 @@ namespace ForerunnerEngine
 	            Display*                XDisplay;
                 Window                  XWindow;
                 Screen*                 XScreen;
-                int32_t                 XScreenId;
+                int32_t                 XScreenID;
                 XVisualInfo*            XVisual;
                 XSetWindowAttributes    XWindowAttributes;
             #endif

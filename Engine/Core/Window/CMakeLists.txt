@@ -36,14 +36,14 @@ set (CommonWindowFiles Window.h)
 if (WIN32)
     list (APPEND CommonWindowFiles Win32Window.h Win32Window.cpp)
 else()
-    list (APPEND CommonWindowFiles X11Window.h X11Window.cpp)
+    list (APPEND CommonWindowFiles X11Window.h X11Window.cpp ../../../3rdParty/glad/glad_glx.h ../../../3rdParty/glad/glad_glx.c)
 endif()
 
 # Create the target
 add_library (FRWindowLibrary STATIC ${CommonWindowFiles})
 
 # Specify includes for target
-set (TargetIncludeDirs ./ ../Config ../../../3rdParty/)
+set (TargetIncludeDirs ./ ../ ../../Config ../../../3rdParty/)
 
 if (UNIX)
     list(APPEND TargetIncludeDirs ${X11_INCLUDE_DIR})
@@ -54,7 +54,7 @@ set (TargetCompileDefines)
 set (TargetCompileOptions)
 
 if (UNIX)
-    list(APPEND TargetCompileDefines )
+    list(APPEND TargetCompileDefines LINUX)
 endif()
 
 if(MSVC)

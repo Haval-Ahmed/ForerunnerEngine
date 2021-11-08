@@ -10,6 +10,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 /// Standard Libraries
 ///////////////////////////////////////////////////////////////////////////////
+#include <iostream>
 #include <string>
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -22,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 /// External Libraries
 ///////////////////////////////////////////////////////////////////////////////
-#include "glad/include/glad_glx.h"
+#include "glad/glad_glx.h"
 
 namespace ForerunnerEngine
 {
@@ -63,8 +64,11 @@ namespace ForerunnerEngine
                 // as we will require GLX 1.2+
                 GLint MajorGLX, MinorGLX = 0;
 
+                // Load GLX extensions before using them
+                gladLoadGLX(WindowPtr->XDisplay, WindowPtr->XScreenID);
+
                 // Query GLX Version
-                glxQueryVersion(WindowPtr->XDisplay, &MajorGLX, MinorGLX);
+                glXQueryVersion(WindowPtr->XDisplay, &MajorGLX, &MinorGLX);
 
                 if (MajorGLX <= 1 && MinorGLX < 2)
                 {
@@ -90,7 +94,7 @@ namespace ForerunnerEngine
 
                 // Query the frame buffer configuration
                 int32_t fbConfiguration;
-                GLXFBConfig* FBConfig = glxChooseFBConfig(WindowPtr->XDisplay, WindowPtr->XScreenId, glxAttributes, &fbConfiguration);
+                GLXFBConfig* FBConfig = glXChooseFBConfig(WindowPtr->XDisplay, WindowPtr->XScreenID, glxAttributes, &fbConfiguration);
 
                 // Ensure we have a frame buffer
                 if (FBConfig == 0)
@@ -138,37 +142,37 @@ namespace ForerunnerEngine
                 XFree(FBConfig);
 
                 // Assign the chosen FB config
-                XVisual = glXGetVisualFromFBConfig(WindowPtr->XDisplay, bestFbc);
+                WindowPtr->XVisual = glXGetVisualFromFBConfig(WindowPtr->XDisplay, frameBufferConfiguration);
 
-                if (XVisual == 0) 
+                if (WindowPtr->XVisual == 0) 
                 {
                     std::cout << "Could not create correct visual window.\n";
                     XCloseDisplay(WindowPtr->XDisplay);
                 }
 
-                if (WindowPtr->XScreenId != XVisual->screen) 
+                if (WindowPtr->XScreenID != WindowPtr->XVisual->screen) 
                 {
-                    std::cout << "screenId(" << WindowPtr->XScreenId << ") does not match visual->screen(" << WindowPtr->XVisual->screen << ").\n";
+                    std::cout << "screenId(" << WindowPtr->XScreenID << ") does not match visual->screen(" << WindowPtr->XVisual->screen << ").\n";
                     XCloseDisplay(WindowPtr->XDisplay);
                 }
 
                 // Configure window attributes
-                WindowPtr->XWindowAttributes.border_pixel       = BlackPixel(WindowPtr->XDisplay, WindowPtr->XScreenId);
-                WindowPtr->XWindowAttributes.background_pixel   = WhitePixel(WindowPtr->XDisplay, WindowPtr->XScreenId);
+                WindowPtr->XWindowAttributes.border_pixel       = BlackPixel(WindowPtr->XDisplay, WindowPtr->XScreenID);
+                WindowPtr->XWindowAttributes.background_pixel   = WhitePixel(WindowPtr->XDisplay, WindowPtr->XScreenID);
                 WindowPtr->XWindowAttributes.override_redirect  = True;
-                WindowPtr->XWindowAttributes.colormap           = XCreateColormap(WindowPtr->XDisplay, RootWindow(WindowPtr->XDisplay, WindowPtr->XScreenId), WindowPtr->XVisual->visual, AllocNone);
+                WindowPtr->XWindowAttributes.colormap           = XCreateColormap(WindowPtr->XDisplay, RootWindow(WindowPtr->XDisplay, WindowPtr->XScreenID), WindowPtr->XVisual->visual, AllocNone);
                 WindowPtr->XWindowAttributes.event_mask         = KeyPressMask | KeyReleaseMask | ButtonPressMask | ButtonReleaseMask | ResizeRedirectMask | ExposureMask | ConfigureNotify | ResizeRequest | PointerMotionMask | PointerMotionHintMask;
 
                 // Create the window with the desired window attributes and visual information
-                window = XCreateWindow(display, RootWindow(display, WindowPtr->XScreenId), 0, 0, Width, Height, 0, WindowPtr->XVisual->depth, InputOutput, WindowPtr->XVisual->visual, CWBackPixel | CWColormap | CWBorderPixel | CWEventMask, &windowAttribs);
+                WindowPtr->XWindow = XCreateWindow(WindowPtr->XDisplay, RootWindow(WindowPtr->XDisplay, WindowPtr->XScreenID), 0, 0, Width, Height, 0, WindowPtr->XVisual->depth, InputOutput, WindowPtr->XVisual->visual, CWBackPixel | CWColormap | CWBorderPixel | CWEventMask, &WindowPtr->XWindowAttributes);
 
                 // Register the window closing event
                 Atom atomWmDeleteWindow = XInternAtom(WindowPtr->XDisplay, "WM_DELETE_WINDOW", False);
-                XSetWMProtocols(WindowPtr->XDisplay, window, &atomWmDeleteWindow, 1);
+                XSetWMProtocols(WindowPtr->XDisplay, WindowPtr->XWindow, &atomWmDeleteWindow, 1);
 
                 // Clear and raise display
-                XClearWindow(WindowPtr->XDisplay, window);
-                XMapRaised(WindowPtr->XDisplay, window);
+                XClearWindow(WindowPtr->XDisplay, WindowPtr->XWindow);
+                XMapRaised(WindowPtr->XDisplay, WindowPtr->XWindow);
             }
 
             return operationSuccessful;
@@ -176,10 +180,14 @@ namespace ForerunnerEngine
 
         FR_API int32_t FR_CALL Destroy(FRWindow *WindowPtr)
         {
+            int32_t operationSuccessful = 0;
+
             XFree(WindowPtr->XVisual);
 		    XFreeColormap(WindowPtr->XDisplay, WindowPtr->XWindowAttributes.colormap);
 		    XDestroyWindow(WindowPtr->XDisplay, WindowPtr->XWindow);
 		    XCloseDisplay(WindowPtr->XDisplay);
+
+            return 0;
         }
 
         FR_API int32_t FR_CALL Resize(FRWindow *WindowPtr, uint32_t Width, uint32_t Height)
@@ -203,16 +211,16 @@ namespace ForerunnerEngine
             XEvent windowedEvent = { 0 };
 
             /// Get ATOM for fullscreen window
-            Atom wmState		= XInternAtom(display, "_NET_WSTATE", true);
+            Atom wmState		= XInternAtom(WindowPtr->XDisplay, "_NET_WSTATE", true);
             Atom displayType[2] = { 0 };
 
             /// Change from fullscreen to windowed
-            displayType[0] = XInternAtom(display, "_NET_WSTATE_MAXIMIZED_HORZ", true);
-            displayType[1] = XInternAtom(display, "_NET_WSTATE_MAXIMIZED_VERT", true);
+            displayType[0] = XInternAtom(WindowPtr->XDisplay, "_NET_WSTATE_MAXIMIZED_HORZ", true);
+            displayType[1] = XInternAtom(WindowPtr->XDisplay, "_NET_WSTATE_MAXIMIZED_VERT", true);
 
             // Configure event type
             windowedEvent.type                    = ClientMessage;
-            windowedEvent.xclient.window          = window;
+            windowedEvent.xclient.window          = WindowPtr->XWindow;
             windowedEvent.xclient.message_type    = wmState;
             windowedEvent.xclient.format          = 32;
             windowedEvent.xclient.data.l[0]       = 1;                /// _NET_WSTATE_ADD = 1, _NET_WSTATE_TOGGLE = 2, _NET_WSTATE_REMOVE = 0
@@ -238,10 +246,7 @@ namespace ForerunnerEngine
             int32_t operationSuccessful = 0;
 
             /// Create a xevent to tell the windows manager to transition application to toggle fullscreen
-            XEvent fullScreenEvent;
-
-            /// Clear message
-            memset(&fullScreenEvent, 0, sizeof(XEvent));
+            XEvent fullScreenEvent = {0};
 
             /// Get ATOM for fullscreen window
             Atom wmState		= XInternAtom(WindowPtr->XDisplay, "_NET_WSTATE", false);
@@ -249,7 +254,7 @@ namespace ForerunnerEngine
 
             /// Configure event type
             fullScreenEvent.type                    = ClientMessage;
-            fullScreenEvent.xclient.window          = window;
+            fullScreenEvent.xclient.window          = WindowPtr->XWindow;
             fullScreenEvent.xclient.message_type    = wmState;
             fullScreenEvent.xclient.format          = 32;
             fullScreenEvent.xclient.data.l[0]       = 2;                /// _NET_WSTATE_TOGGLE
@@ -317,8 +322,8 @@ namespace ForerunnerEngine
 
                         case ClientMessage:
                         {
-                            if (eventDescription.xclient.message_type       == XInternAtom(XWindow->getDisplay(), "WM_PROTOCOLS", True) &&
-                                (Atom)eventDescription.xclient.data.l[0]    == XInternAtom(XWindow->getDisplay(), "WM_DELETE_WINDOW", True))
+                            if (eventDescription.xclient.message_type       == XInternAtom(WindowPtr->XDisplay, "WM_PROTOCOLS", True) &&
+                                (Atom)eventDescription.xclient.data.l[0]    == XInternAtom(WindowPtr->XDisplay, "WM_DELETE_WINDOW", True))
                             {
                                 // Close window
                             }
@@ -374,6 +379,7 @@ namespace ForerunnerEngine
 
                     }
                 }
+            }
 
             return operationSuccessful;
         }

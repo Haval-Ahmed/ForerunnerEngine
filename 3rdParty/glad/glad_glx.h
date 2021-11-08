@@ -71,7 +71,7 @@
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#include <glad/glad.h>
+#include "glad/glad.h"
 
 #ifndef __glad_glxext_h_
 

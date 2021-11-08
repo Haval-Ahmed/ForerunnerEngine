@@ -12,6 +12,8 @@
 //////////////////////////////////////////////////////////////////////////
 #ifdef _WIN32
     #include "Win32Window.h"
+#else 
+    #include "X11Window.h"
 #endif
 
 //////////////////////////////////////////////////////////////////////////
@@ -24,7 +26,7 @@
 int main()
 {
     /// Create a window for this renderer, note this will probably change in the future
-    ForerunnerEngine::ForerunnerWindow::Window windowObject;
+    ForerunnerEngine::ForerunnerWindow::FRWindow windowObject;
 
     // Initialize the window object
     int32_t windowInitialized = ForerunnerEngine::ForerunnerWindow::Initialize(&windowObject);
