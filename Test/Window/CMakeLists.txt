@@ -30,17 +30,17 @@ set (TargetCompileOptions)
 set (TargetIncludeDirs)
 
 # Link Libraries
-set (TargetLinkLibs FRWindowLibrary)
+set (TargetLinkLibs)
 
 if (WIN32)
-    list(APPEND TargetLinkLibs Shore)
+    list(APPEND TargetLinkLibs FRWindowLibrary Shore)
 elseif(UNIX)
-    list(APPEND TargetLinkLibs ${X11_LIBRARIES} ${${CMAKE_DL_LIBS}})
+    list(APPEND TargetLinkLibs ${X11_LIBRARIES} ${CMAKE_DL_LIBS} FRWindowLibrary)
 endif()
 
 
 # Define the target configuration in terms of compile options, directories, definitions, etc..
-target_include_directories(WindowLibraryTest PRIVATE FRWindowLibrary)
+target_include_directories(WindowLibraryTest PRIVATE FRWindowLibrary ${X11_INCLUDE_DIR})
 target_link_libraries(WindowLibraryTest PRIVATE ${TargetLinkLibs})
 
 # CMake learned to honor *.manifest source files with MSVC tools. 
