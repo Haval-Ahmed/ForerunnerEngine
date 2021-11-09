@@ -58,7 +58,7 @@
             "vendor": {
                 "microsoft.com/VisualStudioSettings/CMake/1.0": 
                 {
-                "hostOS": ["Linux"]
+                  "hostOS": ["Linux"]
                 }
             }
         },

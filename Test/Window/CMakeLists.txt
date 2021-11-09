@@ -35,7 +35,7 @@ set (TargetLinkLibs)
 if (WIN32)
     list(APPEND TargetLinkLibs FRWindowLibrary Shore)
 elseif(UNIX)
-    list(APPEND TargetLinkLibs ${X11_LIBRARIES} ${CMAKE_DL_LIBS} FRWindowLibrary)
+    list(APPEND TargetLinkLibs ${CMAKE_DL_LIBS} FRWindowLibrary)
 endif()
 
 

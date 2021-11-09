@@ -36,6 +36,8 @@ int main()
 
     #ifdef _WIN32
         Win32EventLoop(&windowObject);
+    #else
+        ForerunnerEngine::ForerunnerWindow::IsWindowClosing(&windowObject);
     #endif
 
     /// Always Return 0

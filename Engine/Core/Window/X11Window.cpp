@@ -183,9 +183,9 @@ namespace ForerunnerEngine
             int32_t operationSuccessful = 0;
 
             XFree(WindowPtr->XVisual);
-		    XFreeColormap(WindowPtr->XDisplay, WindowPtr->XWindowAttributes.colormap);
-		    XDestroyWindow(WindowPtr->XDisplay, WindowPtr->XWindow);
-		    XCloseDisplay(WindowPtr->XDisplay);
+            XFreeColormap(WindowPtr->XDisplay, WindowPtr->XWindowAttributes.colormap);
+            XDestroyWindow(WindowPtr->XDisplay, WindowPtr->XWindow);
+            XCloseDisplay(WindowPtr->XDisplay);
 
             return 0;
         }

@@ -73,7 +73,7 @@ namespace ForerunnerEngine
                 int32_t     WindowStyle;
                 int32_t     ExtendedWindowStyle;
             #else 
-	            Display*                XDisplay;
+                Display*                XDisplay;
                 Window                  XWindow;
                 Screen*                 XScreen;
                 int32_t                 XScreenID;
