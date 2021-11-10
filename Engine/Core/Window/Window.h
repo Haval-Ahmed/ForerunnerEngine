@@ -21,6 +21,7 @@
 #elif LINUX
     #include <X11/Xlib.h>
     #include <X11/Xutil.h>
+    #include <X11/Xatom.h>
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -79,6 +80,13 @@ namespace ForerunnerEngine
                 int32_t                 XScreenID;
                 XVisualInfo*            XVisual;
                 XSetWindowAttributes    XWindowAttributes;
+                Atom                    XAtomDeleteWindow;
+                Atom                    XAtomXdndAware;
+                Atom                    XAtomXdndPosition;
+                Atom                    XAtomXdndDrop;
+                Atom                    XAtomXdndActionCopy;
+                Atom                    XAtomXdndStatus;
+                Atom                    XAtomXdndFinished;
             #endif
 
             MouseMoveCallback           MouseMoveCallbacks[MAX_CALLBACK_FUNCTIONS];

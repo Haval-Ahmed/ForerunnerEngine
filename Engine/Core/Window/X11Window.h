@@ -23,6 +23,8 @@ namespace ForerunnerEngine
         FR_API int32_t FR_CALL IsWindowClosing(FRWindow *WindowPtr);
         FR_API int32_t FR_CALL SetWindowTitle(FRWindow* WindowPtr, const char* Title);
         FR_API int32_t FR_CALL SetWindowIcon(FRWindow* WindowPtr, const char* IconPath);
+        FR_API int32_t FR_CALL EnableWindowBoarder(FRWindow* WindowPtr);
+        FR_API int32_t FR_CALL RemoveWindowBoarder(FRWindow* WindowPtr);
 
         FR_API void FR_CALL RegisterForMouseMoveEvent(MouseMoveCallback CallbackFunction);
         FR_API void FR_CALL RegisterForMouseButtonPressed(MouseButtonPressedCallback CallbackFunction);
