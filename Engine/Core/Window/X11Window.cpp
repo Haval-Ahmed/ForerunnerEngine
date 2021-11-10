@@ -13,6 +13,7 @@
 #include <iostream>
 #include <cstring>
 #include <climits>
+#include <filesystem>
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Platform Libraries
@@ -528,8 +529,11 @@ namespace ForerunnerEngine
             int32_t imageHeight;
             int32_t imageNumChannels;
 
+            // Check if file exists
+            // if (std::filesystem::exists())
+
             // Data needs to be formated in the following format: ARGB8888
-            uint8_t *imageData = stbi_load(IconPath, &imageWidth, &imageHeight, &imageNumChannels, 0);
+            uint8_t *imageData = stbi_load(IconPath, &imageWidth, &imageHeight, &imageNumChannels, 4);
 
             // Atom for icon
             Atom wmIcon = XInternAtom(WindowPtr->XDisplay, "_NET_WM_ICON", False);
@@ -547,7 +551,17 @@ namespace ForerunnerEngine
             for (size_t i = 2; i < imageWidth * imageHeight; i++)
             {
                 // Create RGBA pixel
-                uint32_t rgbaPixel = createRGBA(imageData[i * imageNumChannels], imageData[i * imageNumChannels + 1], imageData[i * imageNumChannels + 2], imageData[i * imageNumChannels + 3]);
+                uint32_t rgbaPixel = 0;
+
+                if (imageNumChannels == 3)
+                {
+                    rgbaPixel = createRGBA(imageData[i * imageNumChannels], imageData[i * imageNumChannels + 1], imageData[i * imageNumChannels + 2], 255);
+
+                }
+                else if (imageNumChannels == 4)
+                {
+                    rgbaPixel = createRGBA(imageData[i * imageNumChannels], imageData[i * imageNumChannels + 1], imageData[i * imageNumChannels + 2], imageData[i * imageNumChannels + 3]);
+                }
 
                 // Convert from RGBA to ARGB 
                 iconData[i] = convertRGBAToARGBA(rgbaPixel);

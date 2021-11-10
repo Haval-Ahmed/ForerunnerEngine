@@ -34,6 +34,9 @@ int main()
     // Create the actual window object
     windowInitialized = ForerunnerEngine::ForerunnerWindow::Create(&windowObject, 1280, 720, "Forerunner Window Test", "");
 
+    // Try to load icon
+    ForerunnerEngine::ForerunnerWindow::SetWindowIcon(&windowObject, "/home/haval/TestFile.png");
+
     #ifdef _WIN32
         Win32EventLoop(&windowObject);
     #else
