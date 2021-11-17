@@ -35,9 +35,8 @@ set (TargetLinkLibs)
 if (WIN32)
     list(APPEND TargetLinkLibs FRWindowLibrary Shore)
 elseif(UNIX)
-    list(APPEND TargetLinkLibs ${CMAKE_DL_LIBS} FRWindowLibrary)
+    list(APPEND TargetLinkLibs ${CMAKE_DL_LIBS} pthread FRWindowLibrary)
 endif()
-
 
 # Define the target configuration in terms of compile options, directories, definitions, etc..
 target_include_directories(WindowLibraryTest PRIVATE FRWindowLibrary ${X11_INCLUDE_DIR})
