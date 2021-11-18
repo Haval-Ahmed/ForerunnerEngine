@@ -87,6 +87,7 @@ namespace ForerunnerEngine
                 Atom                    XAtomXdndActionCopy;
                 Atom                    XAtomXdndStatus;
                 Atom                    XAtomXdndFinished;
+                Atom                    XAtomXndnSource;
             #endif
 
             MouseMoveCallback           MouseMoveCallbacks[MAX_CALLBACK_FUNCTIONS];

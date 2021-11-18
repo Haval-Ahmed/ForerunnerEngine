@@ -386,7 +386,7 @@ namespace ForerunnerEngine
                             XEvent reply = { 0 };
 
                             reply.type                  = ClientMessage;
-                            reply.xclient.window        = WindowPtr->XWindow;
+                            reply.xclient.window        = WindowPtr->XAtomXndnSource;
                             reply.xclient.message_type  = WindowPtr->XAtomXdndStatus;
                             reply.xclient.format        = 32;
                             reply.xclient.data.l[0]     = WindowPtr->XWindow;
@@ -406,7 +406,7 @@ namespace ForerunnerEngine
                         {
                             // Item dropped in the window
                             // Store the source of the drag and drop
-                            WindowPtr->XAtomXdndStatus = eventDescription.xclient.data.l[0];
+                            WindowPtr->XAtomXndnSource = eventDescription.xclient.data.l[0];
 
                             // Ask for a conversion of the selection. This will trigger a SelectioNotify event later.
                             Atom xdndSelectionAtom = XInternAtom(WindowPtr->XDisplay, "XdndSelection", False);
@@ -463,7 +463,7 @@ namespace ForerunnerEngine
 
                     case SelectionNotify:
                     {
-                        if (!eventDescription.xselection.property || WindowPtr->XAtomXdndStatus)
+                        if (!eventDescription.xselection.property || !WindowPtr->XAtomXndnSource)
                         {
                             return 0;
                         }
@@ -478,13 +478,16 @@ namespace ForerunnerEngine
                         // Get winodw property
                         XGetWindowProperty(WindowPtr->XDisplay, WindowPtr->XWindow, eventDescription.xselection.property, 0, LONG_MAX, False, eventDescription.xselection.target, &fileType, &formatType, &itemCount, &bytesAfter, (uint8_t**)&fileData);
 
+                        // Output file data
+                        std::cout << fileData << std::endl;
+
                         // Free data after using
                         XFree(fileData);
 
                         // Send a reply to the source that we parsed the drag and drop event
                         XEvent replyEvent               = { 0 };
                         replyEvent.type                 = ClientMessage;
-                        replyEvent.xclient.window       = WindowPtr->XAtomXdndStatus;
+                        replyEvent.xclient.window       = WindowPtr->XAtomXndnSource;
                         replyEvent.xclient.message_type = WindowPtr->XAtomXdndFinished;
                         replyEvent.xclient.format       = 32;
                         replyEvent.xclient.data.l[0]    = (long)WindowPtr->XDisplay;
@@ -492,13 +495,13 @@ namespace ForerunnerEngine
                         replyEvent.xclient.data.l[2]    = WindowPtr->XAtomXdndActionCopy;
 
                         // Send event
-                        XSendEvent(WindowPtr->XDisplay, WindowPtr->XWindow, False, NoEventMask, &replyEvent);
+                        XSendEvent(WindowPtr->XDisplay, WindowPtr->XAtomXndnSource, False, NoEventMask, &replyEvent);
 
                         // Flush display
                         XFlush(WindowPtr->XDisplay);
 
                         // Reset status
-                        WindowPtr->XAtomXdndStatus = 0;
+                        WindowPtr->XAtomXndnSource = 0;
                     }
                     break;
 

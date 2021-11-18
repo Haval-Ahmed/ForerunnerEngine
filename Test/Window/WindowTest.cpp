@@ -32,7 +32,7 @@ int main()
     int32_t windowInitialized = ForerunnerEngine::ForerunnerWindow::Initialize(&windowObject);
 
     // Create the actual window object
-    windowInitialized = ForerunnerEngine::ForerunnerWindow::Create(&windowObject, 1280, 720, "Forerunner Window Test", "");
+    windowInitialized = ForerunnerEngine::ForerunnerWindow::Create(&windowObject, 640, 480, "Forerunner Window Test", "");
 
     #ifdef _WIN32
         Win32EventLoop(&windowObject);
