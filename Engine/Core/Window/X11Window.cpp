@@ -19,6 +19,7 @@
 /// Platform Libraries
 ///////////////////////////////////////////////////////////////////////////////
 #include <X11/keysymdef.h>
+#include <X11/Xlocale.h>
 
 ///////////////////////////////////////////////////////////////////////////////
 /// External Libraries
@@ -212,6 +213,9 @@ namespace ForerunnerEngine
                 // Clear and raise display
                 XClearWindow(WindowPtr->XDisplay, WindowPtr->XWindow);
                 XMapRaised(WindowPtr->XDisplay, WindowPtr->XWindow);
+
+                // Set window code
+                SetWindowTitle(WindowPtr, Title);
             }
 
             return operationSuccessful;
@@ -512,10 +516,27 @@ namespace ForerunnerEngine
             int32_t operationSuccessful = 0;
 
             // Create an atom for the wm name property
-            Atom wmState = XInternAtom(WindowPtr->XDisplay, "_NET_WM_NAME", false);
+            Atom wmName         = XInternAtom(WindowPtr->XDisplay, "_NET_WM_NAME", False);
+            Atom wmNameIcon     = XInternAtom(WindowPtr->XDisplay, "_NET_WM_ICON_NAME", False);
+            Atom UTF8_STRING    = XInternAtom(WindowPtr->XDisplay, "UTF8_STRING", False);
+
+            // Also create a class hint to ensure task bar icon name is set
+            XClassHint *classHint = XAllocClassHint();
+    
+            if (classHint)
+            {
+                classHint->res_name = classHint->res_class = (char *)Title;
+                XSetClassHint(WindowPtr->XDisplay, WindowPtr->XWindow, classHint);
+                XFree(classHint);
+            }
 
             // Change property
-            XChangeProperty(WindowPtr->XDisplay, WindowPtr->XWindow, wmState, XA_STRING, 8, 0, (const uint8_t*)Title, strlen(Title));
+            XChangeProperty(WindowPtr->XDisplay, WindowPtr->XWindow, wmName, UTF8_STRING, 8, 0, (const uint8_t*)Title, strlen(Title));
+            XChangeProperty(WindowPtr->XDisplay, WindowPtr->XWindow, wmNameIcon, UTF8_STRING, 8, 0, (const uint8_t*)Title, strlen(Title));
+	        XChangeProperty(WindowPtr->XDisplay, WindowPtr->XWindow, XA_WM_ICON_NAME, XA_STRING, 8, 0, (const uint8_t*)Title, strlen(Title));
+
+            // Flush the display
+            XFlush(WindowPtr->XDisplay);
 
             return operationSuccessful;
         }
@@ -529,46 +550,40 @@ namespace ForerunnerEngine
             int32_t imageHeight;
             int32_t imageNumChannels;
 
-            // Check if file exists
-            // if (std::filesystem::exists())
-
             // Data needs to be formated in the following format: ARGB8888
-            uint8_t *imageData = stbi_load(IconPath, &imageWidth, &imageHeight, &imageNumChannels, 4);
+            uint8_t *imageData = stbi_load(IconPath, &imageWidth, &imageHeight, &imageNumChannels, STBI_rgb_alpha);
 
             // Atom for icon
             Atom wmIcon = XInternAtom(WindowPtr->XDisplay, "_NET_WM_ICON", False);
 
             // Create the prop data
             long* iconData;
-            int32_t iconSize    = 2 + (imageWidth * imageHeight);
-            iconData            = new long[iconSize];
+            int32_t iconSize        = (imageWidth * imageHeight);
+            int32_t iconSizeLong    = 2 + iconSize;
+            iconData                = new long[iconSizeLong];
 
             // Store width and height in first two elements and then actual image data
             iconData[0] = imageWidth;
             iconData[1] = imageHeight;
 
+            // index counter
+            int32_t imageCounter = 0;
+
             // Copy uint8_t into long array just to cast back into uint8_t
-            for (size_t i = 2; i < imageWidth * imageHeight; i++)
+            for (size_t i = 2; i < iconSize; i++)
             {
                 // Create RGBA pixel
-                uint32_t rgbaPixel = 0;
-
-                if (imageNumChannels == 3)
-                {
-                    rgbaPixel = createRGBA(imageData[i * imageNumChannels], imageData[i * imageNumChannels + 1], imageData[i * imageNumChannels + 2], 255);
-
-                }
-                else if (imageNumChannels == 4)
-                {
-                    rgbaPixel = createRGBA(imageData[i * imageNumChannels], imageData[i * imageNumChannels + 1], imageData[i * imageNumChannels + 2], imageData[i * imageNumChannels + 3]);
-                }
+                uint32_t rgbaPixel = createRGBA(imageData[imageCounter], imageData[imageCounter + 1], imageData[imageCounter + 2], imageData[imageCounter + 3]);
 
                 // Convert from RGBA to ARGB 
-                iconData[i] = convertRGBAToARGBA(rgbaPixel);
+                iconData[i] = (long)rgbaPixel;
+
+                // Increment counter
+                imageCounter += imageNumChannels;
             }
 
             // Assign new window icon
-            XChangeProperty(WindowPtr->XDisplay, WindowPtr->XWindow, wmIcon, XA_CARDINAL, 32, PropModeReplace, (uint8_t*)iconData, iconSize);
+            XChangeProperty(WindowPtr->XDisplay, WindowPtr->XWindow, wmIcon, XA_CARDINAL, 32, PropModeReplace, (uint8_t*)iconData, iconSizeLong);
 
             // Flush the display
             XFlush(WindowPtr->XDisplay);
@@ -649,10 +664,14 @@ namespace ForerunnerEngine
 
 uint32_t createRGBA(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
-    return ((alpha  & 0xFF000000) << 24)    |   //AA______
-            ((red   & 0x00FF0000) << 16)    |   //__RR____
-            ((green & 0x0000FF00) << 8)     |   //____GG__
-            ((blue  & 0x000000FF));             //______BB 
+    uint32_t pixel = 0x00000000;
+
+    pixel |= (static_cast<uint32_t>(alpha) << 24) & 0xFF000000; //AA______
+    pixel |= (static_cast<uint32_t>(red)   << 16) & 0x00FF0000; //__RR____
+    pixel |= (static_cast<uint32_t>(green) << 8)  & 0x0000FF00; //____GG__
+    pixel |= (static_cast<uint32_t>(blue) & 0x000000FF);        //______BB
+
+    return pixel;
 }
 
 uint32_t convertRGBAToARGBA(uint32_t rgba)
