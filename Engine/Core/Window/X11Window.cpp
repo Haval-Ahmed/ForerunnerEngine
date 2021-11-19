@@ -13,7 +13,6 @@
 #include <iostream>
 #include <cstring>
 #include <climits>
-#include <filesystem>
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Platform Libraries
@@ -477,9 +476,6 @@ namespace ForerunnerEngine
 
                         // Get winodw property
                         XGetWindowProperty(WindowPtr->XDisplay, WindowPtr->XWindow, eventDescription.xselection.property, 0, LONG_MAX, False, eventDescription.xselection.target, &fileType, &formatType, &itemCount, &bytesAfter, (uint8_t**)&fileData);
-
-                        // Output file data
-                        std::cout << fileData << std::endl;
 
                         // Free data after using
                         XFree(fileData);
