@@ -1,0 +1,14 @@
+/// @file ForerunnerEngineConfig.h.in
+/// @brief Configuration and platform check file CMake uses to generate a project generation file
+
+// Project Versioning
+#define FORERUNNER_ENGINE_VERSION_MAJOR @FORERUNNER_ENGINE_VERSION_MAJOR@
+#define FORERUNNER_ENGINE_VERSION_MINOR @FORERUNNER_ENGINE_VERSION_MINOR@
+
+// SIMD Checking
+#cmakedefine HAVE_ARM_NEON_SUPPORT 1
+#cmakedefine HAVE_MMX_SUPPORT 1
+#cmakedefine HAVE_SSE_SUPPORT 1
+#cmakedefine HAVE_SSE2_SUPPORT 1 
+#cmakedefine HAVE_SSE3_SUPPORT 1
+

@@ -1,0 +1,125 @@
+{
+    "version": 2,
+    "cmakeMinimumRequired": 
+    {
+        "major": 3,
+        "minor": 20,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "Base",
+            "description": "Sets generator, build and install directory",
+            "hidden": true,
+            "binaryDir": "${sourceDir}/Build/${presetName}",
+            "cacheVariables": 
+            {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/Install/${presetName}",
+                "CMAKE_CXX_STANDARD" : "17",
+                "CMAKE_CXX_STANDARD_REQUIRED" : "ON"
+            }
+        },
+        {
+            "name": "Windows-Base",
+            "description": "Windows x64 Configuration",
+            "generator": "Visual Studio 17 2022",
+            "inherits": [ "Base" ],
+            "architecture": 
+            {
+                "value": "x64",
+                "strategy": "set"
+            },
+            "cacheVariables": 
+            {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_CXX_COMPILER": "cl",
+                "CMAKE_CXX_FLAGS": "/UMBCS /D_UNICODE /DUNICODE"
+            },
+            "vendor": 
+            {
+                "microsoft.com/VisualStudioSettings/CMake/1.0": 
+                {
+                    "hostOS": [ "Windows" ]
+                }
+            },
+            "environment": {"ASAN_SAVE_DUMPS" : "ForerunnerEngineASAN.dmp"}
+        },
+        {
+            "name": "Linux-Base",
+            "description": "Linux x64 Configuration",
+            "generator": "Unix Makefiles",
+            "inherits": "Base",
+            "cacheVariables": 
+            {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            },
+            "vendor": {
+                "microsoft.com/VisualStudioSettings/CMake/1.0": 
+                {
+                  "hostOS": ["Linux"]
+                }
+            }
+        },
+        {
+            "name": "Linux-Warnings",
+            "description": "Linux x64 Configuration with Dev Warnings",
+            "inherits": "Linux-Base",
+            "warnings": 
+            {
+                "dev": true
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "Core-Build",
+            "description": "Inherits environment from base configurePreset",
+            "configurePreset": "Base",
+            "hidden": true,
+            "inheritConfigureEnvironment": true
+        },
+        {
+            "name": "Clean-Build",
+            "description": "Clean before build (--clean-first)",
+            "configurePreset": "Windows-Base",
+            "inherits": "Core-Build",
+            "cleanFirst": true
+        },
+        {
+            "name": "Verbose-Build",
+            "description": "Passes -v to Ninja",
+            "configurePreset": "Windows-Base",
+            "inherits": "Core-Build",
+            "nativeToolOptions": [ "-v" ]
+        },
+        {
+            "name": "Linux-Clean-Build",
+            "configurePreset": "Linux-Base",
+            "inherits": "Clean-Build"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "Core-Test",
+            "description": "Enable output on failure",
+            "configurePreset": "Base",
+            "hidden": false,
+            "output": 
+            {
+                "outputOnFailure": true
+            }
+        },
+        {
+            "name": "Windows-Core-Test",
+            "configurePreset": "Windows-Base",
+            "inherits": "Core-Test"
+        },
+        {
+            "name": "Linux-Core-Test",
+            "configurePreset": "Linux-Base",
+            "inherits": "Core-Test"
+        }
+    ]
+}
