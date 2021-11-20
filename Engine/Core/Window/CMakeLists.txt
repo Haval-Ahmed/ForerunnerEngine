@@ -40,7 +40,7 @@ else()
 endif()
 
 # Create the target
-add_library (FRWindowLibrary STATIC ${CommonWindowFiles})
+add_library (FRWindowLibrary SHARED ${CommonWindowFiles})
 
 # Specify includes for target
 set (TargetIncludeDirs ./ ../ ../../Config ../../../3rdParty/)
@@ -63,8 +63,14 @@ else()
     list(APPEND TargetCompileOptions)
 endif()
 
+if (WIN32)
+    list(APPEND TargetLinkLibs Shore)
+elseif(UNIX)
+    list(APPEND TargetLinkLibs ${CMAKE_DL_LIBS} pthread ${X11_LIBRARIES})
+endif()
+
 # Define the target configuration in terms of compile options, directories, definitions, etc..
 target_compile_options(FRWindowLibrary PRIVATE ${TargetCompileOptions})
 target_compile_definitions(FRWindowLibrary PUBLIC ${TargetCompileDefines})
 target_include_directories(FRWindowLibrary PUBLIC ${TargetIncludeDirs})
-target_link_libraries(FRWindowLibrary PUBLIC ${X11_LIBRARIES})
+target_link_libraries(FRWindowLibrary PUBLIC ${TargetLinkLibs})

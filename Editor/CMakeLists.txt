@@ -38,10 +38,6 @@ set (TargetIncludeDirs)
 # Link Libraries
 set (TargetLinkLibs FRWindowLibrary)
 
-if (WIN32)
-    list(APPEND TargetLinkLibs Shore)
-endif()
-
 # Define the target configuration in terms of compile options, directories, definitions, etc..
 target_include_directories(ForerunnerEditor PRIVATE FRWindowLibrary)
 target_link_libraries(ForerunnerEditor PRIVATE ${TargetLinkLibs})

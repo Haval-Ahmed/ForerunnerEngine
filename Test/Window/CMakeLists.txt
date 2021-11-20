@@ -30,20 +30,8 @@ set (TargetCompileOptions)
 set (TargetIncludeDirs)
 
 # Link Libraries
-set (TargetLinkLibs)
-
-if (WIN32)
-    list(APPEND TargetLinkLibs FRWindowLibrary Shore)
-elseif(UNIX)
-    list(APPEND TargetLinkLibs ${CMAKE_DL_LIBS} pthread FRWindowLibrary)
-endif()
+set (TargetLinkLibs FRWindowLibrary)
 
 # Define the target configuration in terms of compile options, directories, definitions, etc..
 target_include_directories(WindowLibraryTest PRIVATE FRWindowLibrary ${X11_INCLUDE_DIR})
 target_link_libraries(WindowLibraryTest PRIVATE ${TargetLinkLibs})
-
-# CMake learned to honor *.manifest source files with MSVC tools. 
-# Manifest files named as sources of .exe and .dll targets will be merged with linker-generated manifests 
-# and embedded in the binary.
-
-#add_test(NAME WindowLibraryTest COMMAND WindowLibraryTest)
