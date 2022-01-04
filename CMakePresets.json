@@ -7,70 +7,94 @@
         "patch": 0
     },
     "configurePresets": [
+    {
+        "name"          : "Base",
+        "description"   : "Sets generator, build and install directory",
+        "hidden"        : true,
+        "binaryDir"     : "${sourceDir}/Build/${presetName}",
+        "cacheVariables": 
         {
-            "name": "Base",
-            "description": "Sets generator, build and install directory",
-            "hidden": true,
-            "binaryDir": "${sourceDir}/Build/${presetName}",
-            "cacheVariables": 
+            "CMAKE_INSTALL_PREFIX"          : "${sourceDir}/Install/${presetName}",
+            "CMAKE_CXX_STANDARD"            : "17",
+            "CMAKE_CXX_STANDARD_REQUIRED"   : "ON",
+            "CMAKE_TOOLCHAIN_FILE"          : "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+        },
+        "environment": {"VCPKG_FEATURE_FLAGS" : "manifests,versions,binarycaching,registries"},
+        "architecture": 
+        {
+            "value": "x64",
+            "strategy": "external"
+        }
+    },
+    {
+        "name"          : "MSVC-Base",
+        "description"   : "MSVC x64 Configuration",
+        "generator"     : "Visual Studio 17 2022",
+        "inherits"      : [ "Base" ],
+        "hidden"        : true,
+        "cacheVariables": 
+        {
+            "CMAKE_CXX_COMPILER": "cl",
+            "CMAKE_CXX_FLAGS": "/UMBCS /D_UNICODE /DUNICODE"
+        },
+        "vendor": 
+        {
+            "microsoft.com/VisualStudioSettings/CMake/1.0": 
             {
-                "CMAKE_INSTALL_PREFIX": "${sourceDir}/Install/${presetName}",
-                "CMAKE_CXX_STANDARD" : "17",
-                "CMAKE_CXX_STANDARD_REQUIRED" : "ON"
+                "hostOS": [ "Windows" ]
             }
         },
+        "environment": {"ASAN_SAVE_DUMPS" : "ForerunnerEngineASAN.dmp"}
+    },
+    {
+        "name"          : "MSVC-Debug",
+        "description"   : "MSVC x64 Debug Configuration",
+        "inherits"      : [ "MSVC-Base" ],
+        "cacheVariables": 
         {
-            "name": "Windows-Base",
-            "description": "Windows x64 Configuration",
-            "generator": "Visual Studio 17 2022",
-            "inherits": [ "Base" ],
-            "architecture": 
-            {
-                "value": "x64",
-                "strategy": "set"
-            },
-            "cacheVariables": 
-            {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_CXX_COMPILER": "cl",
-                "CMAKE_CXX_FLAGS": "/UMBCS /D_UNICODE /DUNICODE"
-            },
-            "vendor": 
-            {
-                "microsoft.com/VisualStudioSettings/CMake/1.0": 
-                {
-                    "hostOS": [ "Windows" ]
-                }
-            },
-            "environment": {"ASAN_SAVE_DUMPS" : "ForerunnerEngineASAN.dmp"}
+            "CMAKE_BUILD_TYPE": "Debug"
+        }
+    },
+    {
+        "name"          : "MSVC-Release",
+        "description"   : "MSVC x64 Release Configuration",
+        "inherits"      : [ "MSVC-Base" ],
+        "cacheVariables": 
+        {
+            "CMAKE_BUILD_TYPE": "Release",
+            "CMAKE_CXX_FLAGS" : "/arch:AVX2"
+        }
+    },
+    {
+        "name": "Clang-Base",
+        "description": "Linux x64 Configuration",
+        "generator": "Unix Makefiles",
+        "inherits": "Base",
+        "cacheVariables": 
+        {
+            "CMAKE_BUILD_TYPE": "Debug",
+            "CMAKE_C_COMPILER": "clang",
+            "CMAKE_CXX_COMPILER": "clang++"
         },
-        {
-            "name": "Linux-Base",
-            "description": "Linux x64 Configuration",
-            "generator": "Unix Makefiles",
-            "inherits": "Base",
-            "cacheVariables": 
+        "vendor": {
+            "microsoft.com/VisualStudioSettings/CMake/1.0": 
             {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_C_COMPILER": "clang",
-                "CMAKE_CXX_COMPILER": "clang++"
+                "hostOS": ["Linux"]
             },
-            "vendor": {
-                "microsoft.com/VisualStudioSettings/CMake/1.0": 
-                {
-                  "hostOS": ["Linux"]
-                }
-            }
-        },
-        {
-            "name": "Linux-Warnings",
-            "description": "Linux x64 Configuration with Dev Warnings",
-            "inherits": "Linux-Base",
-            "warnings": 
-            {
-                "dev": true
+            "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
+                "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
             }
         }
+    },
+    {
+        "name": "Clang-Warnings",
+        "description": "Linux x64 Configuration with Dev Warnings",
+        "inherits": "Clang-Base",
+        "warnings": 
+        {
+            "dev": true
+        }
+    }
     ],
     "buildPresets": [
         {
@@ -83,20 +107,20 @@
         {
             "name": "Clean-Build",
             "description": "Clean before build (--clean-first)",
-            "configurePreset": "Windows-Base",
+            "configurePreset": "MSVC-Base",
             "inherits": "Core-Build",
             "cleanFirst": true
         },
         {
             "name": "Verbose-Build",
             "description": "Passes -v to Ninja",
-            "configurePreset": "Windows-Base",
+            "configurePreset": "MSVC-Base",
             "inherits": "Core-Build",
             "nativeToolOptions": [ "-v" ]
         },
         {
-            "name": "Linux-Clean-Build",
-            "configurePreset": "Linux-Base",
+            "name": "Clang-Clean-Build",
+            "configurePreset": "Clang-Base",
             "inherits": "Clean-Build"
         }
     ],
@@ -112,13 +136,13 @@
             }
         },
         {
-            "name": "Windows-Core-Test",
-            "configurePreset": "Windows-Base",
+            "name": "MSVC-Core-Test",
+            "configurePreset": "MSVC-Base",
             "inherits": "Core-Test"
         },
         {
-            "name": "Linux-Core-Test",
-            "configurePreset": "Linux-Base",
+            "name": "Clang-Core-Test",
+            "configurePreset": "Clang-Base",
             "inherits": "Core-Test"
         }
     ]

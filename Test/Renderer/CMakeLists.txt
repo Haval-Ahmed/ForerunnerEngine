@@ -20,5 +20,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-add_subdirectory(Window)
-add_subdirectory(Renderer)
+project(FRRendererTest LANGUAGES CXX)
+
+add_executable(FRRendererTest RenderTest.cpp)
+
+# Specify compile options for definition
+set (TargetCompileDefinitions)
+set (TargetCompileOptions)
+set (TargetIncludeDirs)
+
+# Link Libraries
+set (TargetLinkLibs FRWindow)
+
+# Define the target configuration in terms of compile options, directories, definitions, etc..
+target_compile_options(FRRendererTest PRIVATE ${TargetCompileOptions})
+target_include_directories(FRRendererTest PRIVATE ${TargetLinkLibs})
+target_link_libraries(FRRendererTest PRIVATE ${TargetLinkLibs} imgui::imgui)

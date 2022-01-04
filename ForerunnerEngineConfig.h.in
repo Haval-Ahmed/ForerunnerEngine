@@ -11,4 +11,3 @@
 #cmakedefine HAVE_SSE_SUPPORT 1
 #cmakedefine HAVE_SSE2_SUPPORT 1 
 #cmakedefine HAVE_SSE3_SUPPORT 1
-

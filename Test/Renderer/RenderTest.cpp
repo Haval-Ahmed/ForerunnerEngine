@@ -9,6 +9,13 @@
 #include <cstdint>
 
 //////////////////////////////////////////////////////////////////////////
+/// IMGUI Libraries
+//////////////////////////////////////////////////////////////////////////
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+
+//////////////////////////////////////////////////////////////////////////
 /// GLFW Libraries
 //////////////////////////////////////////////////////////////////////////
 #include "glad/glad.h"
@@ -29,18 +36,18 @@ void windowResizingCallback(GLFWwindow* window, int32_t width, int32_t height);
 int main()
 {
     // glfw: initialize and configure
-    // ------------------------------
+    // -------------------------------------------------------------------------------
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // glfw window creation
-    // --------------------
+    // -------------------------------------------------------------------------------
     GLFWwindow* forerunnerWindow = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Window Test", NULL, NULL);
 
     // glfw: check if valid
-    // --------------------
+    // -------------------------------------------------------------------------------
     if (forerunnerWindow == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -49,41 +56,84 @@ int main()
     }
 
     // glfw: Set context current to this thread
-    // --------------------
+    // -------------------------------------------------------------------------------
     glfwMakeContextCurrent(forerunnerWindow);
 
     // glfw: register callback functions
+    // -------------------------------------------------------------------------------
     glfwSetFramebufferSizeCallback(forerunnerWindow, windowResizingCallback);
 
     // glad: load all OpenGL function pointers
-    // ---------------------------------------
+    // -------------------------------------------------------------------------------
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
 
+    // imgui: create the context
+    // -------------------------------------------------------------------------------
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+
+    // imgui: grab the io context
+    // -------------------------------------------------------------------------------
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+    // imgui: Setup Dear ImGui style
+    // -------------------------------------------------------------------------------
+    ImGui::StyleColorsDark();
+
+    // opengl: identify glsl version
+    // -------------------------------------------------------------------------------
+    const char* glslVersion = "#version 430";
+
+    // Setup Platform/Renderer backends
+    // -------------------------------------------------------------------------------
+    ImGui_ImplGlfw_InitForOpenGL(forerunnerWindow, true);
+    ImGui_ImplOpenGL3_Init(glslVersion);
+
     // render loop
-    // -----------
+    // -------------------------------------------------------------------------------
     while (!glfwWindowShouldClose(forerunnerWindow))
     {
-        // input
-        // -----
+        // glfw: poll IO events (keys pressed/released, mouse moved etc.)
+        // -------------------------------------------------------------------------------
+        glfwPollEvents();
+
+        // Poll and handle events (input, window resizing, etc...)
+        // -------------------------------------------------------------------------------
         processKeyboardInput(forerunnerWindow);
 
-        // render
-        // ------
+        // imgui: create new frame for opengl3 and glfw 
+        // -------------------------------------------------------------------------------
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        // imgui: render each frame
+        // -------------------------------------------------------------------------------
+        ImGui::Render();
+
+        // opengl: render
+        // -------------------------------------------------------------------------------
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         // glfw: swap buffers - double buffering
         // -------------------------------------------------------------------------------
-        glfwSwapBuffers(forerunnerWindow);
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        // glfw: poll IO events (keys pressed/released, mouse moved etc.)
+        // glfw: swap buffers - double buffering
         // -------------------------------------------------------------------------------
-        glfwPollEvents();
+        glfwSwapBuffers(forerunnerWindow);
     }
+
+    // imgui: cleanup
+    // ------------------------------------------------------------------
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------

@@ -20,4 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-add_subdirectory(Core)
+add_subdirectory(Window)
+add_subdirectory(IO)
+add_subdirectory(Renderer)
+#add_subdirectory(Camera)
+#add_subdirectory(Controller)
+#add_subdirectory(Time)

@@ -6,13 +6,11 @@ The overall goals for this project are learning and designing a game engine with
 
 ## Development 
 
-This repository will contain 3rd party dependencies as need and where it makes sense. In the previous iteration of the engine I decided to write everything myself with no external
-dependency. I have realized while that is good for initial learning, is extremely time consuming and should not be the focus of this project. The focus of this project is to build 
-games and prototypes as easily and quickly as possible. 
+This repository will contain 3rd party dependencies as need and where it makes sense. In the previous iteration of the engine I decided to write everything myself with no external dependencies. I have realized while that is good for initial learning, is extremely time consuming and should not be the focus of this project. The focus of this project is to prototype as easily and quickly as possible. 
 
 ## Building 
 
-I have tried to make this repository extremely easy to build with no external depedencies currently. 
+I have tried to make this repository extremely easy to build. I would strongly recommend using vcpkg as I pull some necessary 3rd party dependencies such as glm (math) and glfw.
 
 Example on how to generate the project files for Visual Studio. 
 
@@ -38,11 +36,12 @@ CMake | Project Configuration | Yes | 3.20+
 Visual Studio | C++ Compiler and IDE | Yes | Visual Studio 2022
 LLVM | C++ Compiler | Yes | 11.0+
 Doxygen | Documentation Generator | No | 1.9.2
+vcpkg | Cross platform package manager | No | Latest
 
 Name | Description | Required |
 | :-: | :-: | :-: |
-Win32 | Window's Window APIs | YES |
-Wayland | Next-generation display server for Unix-like systems | YES |
+GLFW | Cross Platform Windowing Library | YES |
+GLM | Cross Platform Math library | YES |
 
 ## License
 

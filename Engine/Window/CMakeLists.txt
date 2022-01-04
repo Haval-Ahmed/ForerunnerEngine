@@ -20,5 +20,34 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-add_subdirectory(Window)
-add_subdirectory(Renderer)
+project(FRWindow C CXX)
+
+if (UNIX)
+    find_package(X11 REQUIRED)
+    message(STATUS "X11_FOUND       = ${X11_FOUND}")
+    message(STATUS "X11_INCLUDE_DIR = ${X11_INCLUDE_DIR}")
+    message(STATUS "X11_LIBRARIES   = ${X11_LIBRARIES}")
+endif()
+
+# Specify common files for target
+set (CommonWindowFiles Window.h ${PROJECT_SOURCE_DIR}/../../3rdParty/glad/glad.c)
+
+# Create the target
+add_library (FRWindow INTERFACE)
+
+# Specify includes for target
+set (TargetIncludeDirs ./ ../Config ../../3rdParty/)
+
+# Specify compile options for definition
+set (TargetLinkLibs glfw)
+
+if (WIN32)
+    list(APPEND TargetLinkLibs Shcore)
+elseif(UNIX)
+    list(APPEND TargetLinkLibs ${CMAKE_DL_LIBS} pthread)
+endif()
+
+# Define the target configuration in terms of compile options, directories, definitions, etc..
+target_include_directories(FRWindow INTERFACE ${TargetIncludeDirs})
+target_link_libraries(FRWindow INTERFACE ${TargetLinkLibs})
+target_sources(FRWindow INTERFACE ${CommonWindowFiles})

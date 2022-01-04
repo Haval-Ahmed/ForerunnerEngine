@@ -46,6 +46,9 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/CMake")
 option(ADDRESS_SANITIZER_ENABLED "Build this target with address sanitizer" ON)
 option(BUILD_UNIT_TESTS "Build unit tests for this project" ON)
 
+# include our external dependencies
+include(ExternalDependencies)
+
 # Specify CTest for testing
 include(CTest)
 

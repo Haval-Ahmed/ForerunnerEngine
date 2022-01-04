@@ -20,5 +20,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-add_subdirectory(Window)
-add_subdirectory(Renderer)
+###########################################################################
+### Define the project
+###########################################################################
+project(FRIO)
+
+###########################################################################
+### Create the target
+###########################################################################
+add_library (FRIO SHARED ImageIO.h ImageIO.cpp)
+
+###########################################################################
+### Define the target
+###########################################################################
+target_include_directories(FRIO PUBLIC ./../../3rdParty/stb ./)
