@@ -30,7 +30,7 @@ set (TargetCompileOptions)
 set (TargetIncludeDirs)
 
 # Link Libraries
-set (TargetLinkLibs FRWindow)
+set (TargetLinkLibs FRWindow FRRenderer)
 
 # Define the target configuration in terms of compile options, directories, definitions, etc..
 target_compile_options(FRRendererTest PRIVATE ${TargetCompileOptions})

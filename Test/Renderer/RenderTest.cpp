@@ -22,6 +22,18 @@
 #include "GLFW/glfw3.h"
 
 //////////////////////////////////////////////////////////////////////////
+/// GLM Libraries
+//////////////////////////////////////////////////////////////////////////
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+
+//////////////////////////////////////////////////////////////////////////
+/// Forerunner Libraries
+//////////////////////////////////////////////////////////////////////////
+#include "OpenGLPrimitive2D.h"
+
+//////////////////////////////////////////////////////////////////////////
 /// Unit Test Defines 
 //////////////////////////////////////////////////////////////////////////
 int32_t WINDOW_WIDTH    = 900;
@@ -32,6 +44,8 @@ int32_t WINDOW_HEIGHT   = 600;
 //////////////////////////////////////////////////////////////////////////
 void processKeyboardInput(GLFWwindow* window);
 void windowResizingCallback(GLFWwindow* window, int32_t width, int32_t height);
+void processMouseMovement(GLFWwindow* window, double xPosition, double yPosition);
+void processMouseScroll(GLFWwindow* window, double xOffset, double yOffset);
 
 int main()
 {
@@ -63,6 +77,18 @@ int main()
     // -------------------------------------------------------------------------------
     glfwSetFramebufferSizeCallback(forerunnerWindow, windowResizingCallback);
 
+    // glfw: register mouse callback
+    // -------------------------------------------------------------------------------
+    glfwSetCursorPosCallback(forerunnerWindow, processMouseMovement);
+
+    // glfw: register mouse scroll callback
+    // -------------------------------------------------------------------------------
+    glfwSetScrollCallback(forerunnerWindow, processMouseScroll);
+
+    // glfw: tell GLFW to capture our mouse
+    // -------------------------------------------------------------------------------
+    // glfwSetInputMode(forerunnerWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
     // glad: load all OpenGL function pointers
     // -------------------------------------------------------------------------------
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -93,6 +119,18 @@ int main()
     ImGui_ImplGlfw_InitForOpenGL(forerunnerWindow, true);
     ImGui_ImplOpenGL3_Init(glslVersion);
 
+    // Create primitives
+    // -------------------------------------------------------------------------------
+    ForerunnerEngine::Rectangle2DPrimitive Rect2D;
+
+    Rect2D.setColor(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+    Rect2D.setPosition(glm::vec3(100.0f, 100.0f, 0.0f));
+    Rect2D.setScale(glm::vec3(50.0f, 50.0f, 0.0f));
+
+    // Create projection matrix
+    // -------------------------------------------------------------------------------
+    glm::mat4 Ortho2DMatrix = glm::ortho(0.0f, static_cast<float>(WINDOW_WIDTH), 0.0f, static_cast<float>(WINDOW_HEIGHT), -1.0f, 1.0f);
+
     // render loop
     // -------------------------------------------------------------------------------
     while (!glfwWindowShouldClose(forerunnerWindow))
@@ -120,7 +158,11 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // glfw: swap buffers - double buffering
+        // opengl: render
+        // -------------------------------------------------------------------------------
+        Rect2D.draw(0.0f, Ortho2DMatrix);
+
+        // imgui: Backend rendering for OpenGL
         // -------------------------------------------------------------------------------
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -159,4 +201,16 @@ void windowResizingCallback(GLFWwindow* window, int32_t width, int32_t height)
 {
     // Resize the glViewport
     glViewport(0, 0, width, height);
+}
+
+// glfw: whenever the mouse moves call our callback function
+// ---------------------------------------------------------------------------------------------
+void processMouseMovement(GLFWwindow* window, double xPosition, double yPosition)
+{
+
+}
+
+void processMouseScroll(GLFWwindow* window, double xOffset, double yOffset)
+{
+
 }

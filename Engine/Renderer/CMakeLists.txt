@@ -26,9 +26,11 @@ set (RENDERER_FILES
     Renderer.h
     BaseRenderer.h 
     BaseRenderer.cpp
-    Vertices.h
     OpenGLRenderer.h
     OpenGLRenderer.cpp
+    OpenGLTexture.h
+    OpenGLTexture.cpp
+    Colors.h
 )
 
 set (SHADER_FILES
@@ -38,17 +40,15 @@ set (SHADER_FILES
     Shaders/GLSLShaders.h
 )
 
-set (PRIMATIVE_FILES
-    Primatives/Primative3D.h
-    Primatives/Primative3D.cpp
-    Primatives/PrimativeManager.h
-    Primatives/OpenGLPrimativeManager.h
-    Primatives/OpenGLPrimativeManager.cpp
-)
-
-set (TEXTURE_FILES
-    OpenGLTexture.h
-    OpenGLTexture.cpp
+set (PRIMITIVE_FILES
+    Primitives/PrimitiveData2D.h
+    Primitives/PrimitiveData3D.h
+    Primitives/Transform.h
+    Primitives/Vertices.h
+    Primitives/OpenGLPrimitive2D.h
+    #Primitives/OpenGLPrimitive3D.h
+    Primitives/OpenGLPrimitive2D.cpp
+    #Primitives/OpenGLPrimitive3D.cpp
 )
 
 if (WIN32)
@@ -58,7 +58,7 @@ if (WIN32)
 endif()
 
 # Create the target
-add_library (FRRenderer SHARED ${RENDERER_FILES} ${SHADER_FILES} ${PRIMATIVE_FILES})
+add_library (FRRenderer STATIC ${RENDERER_FILES} ${SHADER_FILES} ${PRIMITIVE_FILES})
 
 # Specify compile options for definition
 set (TargetCompileDefines)
@@ -83,7 +83,7 @@ target_include_directories(FRRenderer
     PUBLIC 
         ./
         ./Lighting
-        ./Primatives
+        ./Primitives
         ./Shaders
         ./../Window
         ./../Config
@@ -91,10 +91,9 @@ target_include_directories(FRRenderer
 )
 
 # Target Link Libraries for Renderer
-target_link_libraries(FRRenderer PUBLIC FRWindow FRIO glm::glm imgui::imgui)
+target_link_libraries(FRRenderer PUBLIC FRIO FRWindow glm::glm imgui::imgui)
 
 # Define source grouping
 source_group("Renderer"     FILES ${RENDERER_FILES})
-source_group("Primatives"   FILES ${PRIMATIVE_FILES})
+source_group("Primitives"   FILES ${PRIMITIVE_FILES})
 source_group("Shaders"      FILES ${SHADER_FILES})
-source_group("Texture"      FILES ${TEXTURE_FILES})

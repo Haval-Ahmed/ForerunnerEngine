@@ -28,7 +28,7 @@ project(FRIO)
 ###########################################################################
 ### Create the target
 ###########################################################################
-add_library (FRIO SHARED ImageIO.h ImageIO.cpp)
+add_library (FRIO STATIC ImageIO.h ImageIO.cpp)
 
 ###########################################################################
 ### Define the target

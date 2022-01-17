@@ -40,21 +40,6 @@ namespace ForerunnerEngine
         //////////////////////////////////////////////////////////////////////////
         virtual ~D3D11PrimativeManager();
 
-        //////////////////////////////////////////////////////////////////////////
-        /// Utilities
-        //////////////////////////////////////////////////////////////////////////
-        virtual void draw(void) = 0;
-
-        //////////////////////////////////////////////////////////////////////////
-        /// Object Creation
-        //////////////////////////////////////////////////////////////////////////
-        virtual void createCube(void) = 0;
-        virtual void createPyramid(void) = 0;
-        virtual void createCylinder(void) = 0;
-        virtual void createPlane(void) = 0;
-        virtual void createSphere(void) = 0;
-        virtual void createTriangle(void) = 0;
-
     protected:
 
         //////////////////////////////////////////////////////////////////////////
@@ -63,17 +48,6 @@ namespace ForerunnerEngine
         void initializePrimatives(void);
         void cleanUpPrimativeManager(void);
         void updateBufferData(void);
-
-        //////////////////////////////////////////////////////////////////////////
-        /// Functions which contain vertice and indice 
-        /// information for each primative type
-        //////////////////////////////////////////////////////////////////////////
-        void generateCube(ForerunnerEngine::D3D11Primative3D* primative);
-        void generatePyramid(ForerunnerEngine::D3D11Primative3D* primative);
-        void generateCylinder(ForerunnerEngine::D3D11Primative3D* primative);
-        void generatePlane(ForerunnerEngine::D3D11Primative3D* primative);
-        void generateSphere(ForerunnerEngine::D3D11Primative3D* primative);
-        void generateTriangle(ForerunnerEngine::D3D11Primative3D* primative);
 
         //////////////////////////////////////////////////////////////////////////
         /// OpenGL Specific Variables

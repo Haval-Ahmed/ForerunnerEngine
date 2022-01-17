@@ -7,26 +7,7 @@
 
 namespace ForerunnerEngine
 {
-    const char* DEFAULT_VERTEX_2D_SHADER = \
-        "#version 430 core \n\
-        \
-        layout (location = 0) in vec3 position; \n\
-        layout (location = 1) in vec3 color \n\
-        layout (location = 2) in vec2 textureCoordinate; \n\
-        \
-        uniform mat4 model; \n\
-        uniform mat4 view; \n\
-        uniform mat4 projection; \n\
-        \
-        out vec2 outputTextureCoordinate; \n\
-        \
-        void main() \n\
-        { \n\
-            gl_Position = projection * view * model * vec4(position, 1.0f); \n\
-            outputTextureCoordinate = vec2(textureCoordinate.x, textureCoordinate.y); \n\
-        }";
-
-    const char* defaultVertexShader = \
+   static const char* BASIC_3D_VERTEX_SHADER = \
         "#version 430 core \n\
         \
         layout (location = 0) in vec3 position; \n\
@@ -45,7 +26,7 @@ namespace ForerunnerEngine
             outputTextureCoordinate = vec2(textureCoordinate.x, textureCoordinate.y); \n\
         }";
 
-    const char* defaultPixelShader = \
+    static const char* BASIC_3D_PIXEL_SHADER = \
         "#version 430 core \n\
         \
         uniform sampler2D texture1; \n\
@@ -59,31 +40,35 @@ namespace ForerunnerEngine
             FragColor = mix(texture(texture1, textureCoordinates), 0.2); \n\
         };";
 
-    const char* vertex_shader_glsl_410_core =
+    static const char* BASIC_2D_VERTEX_SHADER =
+        "#version 430 core\n"
         "layout (location = 0) in vec2 Position;\n"
         "layout (location = 1) in vec2 UV;\n"
-        "layout (location = 2) in vec4 Color;\n"
         "uniform mat4 ProjMtx;\n"
+        "uniform mat4 ModelMtx;\n"
+        "uniform vec4 Color;\n"
         "out vec2 Frag_UV;\n"
         "out vec4 Frag_Color;\n"
         "void main()\n"
         "{\n"
         "    Frag_UV = UV;\n"
         "    Frag_Color = Color;\n"
-        "    gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
+        "    gl_Position = ProjMtx * ModelMtx * vec4(Position.xy, 0, 1);\n"
         "}\n";
 
-    const char* fragment_shader_glsl_410_core =
+    static const char* BASIC_2D_PIXEL_SHADER =
+        "#version 430 core\n"
+        "layout (location = 0) out vec4 Out_Color;\n"
         "in vec2 Frag_UV;\n"
         "in vec4 Frag_Color;\n"
         "uniform sampler2D Texture;\n"
-        "layout (location = 0) out vec4 Out_Color;\n"
         "void main()\n"
         "{\n"
-        "    Out_Color = Frag_Color * texture(Texture, Frag_UV.st);\n"
+        "    Out_Color = Frag_Color;\n"
+//"    Out_Color = Frag_Color * texture(Texture, Frag_UV.st);\n"
         "}\n";
 
-    const char* BASIC_2D_TEXT_VERTEX_SHADER = \
+    static const char* BASIC_2D_TEXT_VERTEX_SHADER = \
         "#version 430 core \n\
         \
         layout (location = 0) in vec2 position; \n\
@@ -99,7 +84,7 @@ namespace ForerunnerEngine
             outputTextureCoordinate = vec2(textureCoordinate.x, textureCoordinate.y); \n\
         }";
 
-    const char* BASIC_2D_TEXT_PIXEL_SHADER = \
+    static const char* BASIC_2D_TEXT_PIXEL_SHADER = \
         "#version 430 core \n\
         \
         in vec2 InputTextCoordinates;\n\
@@ -111,7 +96,7 @@ namespace ForerunnerEngine
         void main()\n\
         {\n\
             vec4 sample = vec4(1.0, 1.0, 1.0, texture(Text, InputTextCoordinates).r);\n\
-            OutputColor = vec4(TextColor, 1.0) * sampled;\n\
+            OutputColor = vec4(TextColor, 1.0) * sample;\n\
         }\n";
 }
 

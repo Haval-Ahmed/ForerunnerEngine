@@ -31,11 +31,10 @@
         "description"   : "MSVC x64 Configuration",
         "generator"     : "Visual Studio 17 2022",
         "inherits"      : [ "Base" ],
-        "hidden"        : true,
         "cacheVariables": 
         {
             "CMAKE_CXX_COMPILER": "cl",
-            "CMAKE_CXX_FLAGS": "/UMBCS /D_UNICODE /DUNICODE"
+            "CMAKE_CXX_FLAGS": "/UMBCS /D_UNICODE /DUNICODE /arch:AVX2"
         },
         "vendor": 
         {
@@ -45,25 +44,6 @@
             }
         },
         "environment": {"ASAN_SAVE_DUMPS" : "ForerunnerEngineASAN.dmp"}
-    },
-    {
-        "name"          : "MSVC-Debug",
-        "description"   : "MSVC x64 Debug Configuration",
-        "inherits"      : [ "MSVC-Base" ],
-        "cacheVariables": 
-        {
-            "CMAKE_BUILD_TYPE": "Debug"
-        }
-    },
-    {
-        "name"          : "MSVC-Release",
-        "description"   : "MSVC x64 Release Configuration",
-        "inherits"      : [ "MSVC-Base" ],
-        "cacheVariables": 
-        {
-            "CMAKE_BUILD_TYPE": "Release",
-            "CMAKE_CXX_FLAGS" : "/arch:AVX2"
-        }
     },
     {
         "name": "Clang-Base",

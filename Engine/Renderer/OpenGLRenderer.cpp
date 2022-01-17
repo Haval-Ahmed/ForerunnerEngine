@@ -23,182 +23,179 @@
 
 namespace ForerunnerEngine
 {
-    namespace ForerunnerRenderer
+    OpenGLRenderer::OpenGLRenderer(uint32_t x, uint32_t y, uint32_t width, uint32_t height, GLFWwindow* window) 
+        : BaseRenderer()
     {
-        OpenGLRenderer::OpenGLRenderer(uint32_t x, uint32_t y, uint32_t width, uint32_t height, GLFWwindow* window) 
-            : BaseRenderer()
-        {
-            /// Initialize member variables
-            RendererXPosition   = x;
-            RendererYPosition   = y;
-            RendererWidth       = width;
-            RendererHeight      = height;
-            this->Window        = window;
+        /// Initialize member variables
+        RendererXPosition   = x;
+        RendererYPosition   = y;
+        RendererWidth       = width;
+        RendererHeight      = height;
+        this->Window        = window;
 
-            // Set OpenGL Debug Callback
+        // Set OpenGL Debug Callback
 #ifdef _DEBUG
-            glEnable(GL_DEBUG_OUTPUT);
-            glDebugMessageCallback(checkForOpenGLError, window);
+        glEnable(GL_DEBUG_OUTPUT);
+        glDebugMessageCallback(checkForOpenGLError, window);
 #endif
 
-            // Initialize renderer
-            initializeRenderer();
+        // Initialize renderer
+        initializeRenderer();
 
-            // Enable depth test
-            glEnable(GL_DEPTH_TEST);
-        }
-
-
-        OpenGLRenderer::~OpenGLRenderer(void)
-        {
-            destroyRenderer();
-        };
+        // Enable depth test
+        glEnable(GL_DEPTH_TEST);
+    }
 
 
-        void OpenGLRenderer::initializeRenderer(void)
-        {
-            /// Get OpenGL Version, Vendor, and Renderer
-            glGetIntegerv(GL_MAJOR_VERSION, &OpenGLVersion[0]);
-            glGetIntegerv(GL_MINOR_VERSION, &OpenGLVersion[1]);
-
-            Vendor   = glGetString(GL_VENDOR);
-            Renderer = glGetString(GL_RENDERER);
-
-            // Initialize glViewport
-            setViewPort(RendererXPosition, RendererYPosition, RendererWidth, RendererHeight);
-        }
+    OpenGLRenderer::~OpenGLRenderer(void)
+    {
+        destroyRenderer();
+    };
 
 
-        void OpenGLRenderer::destroyRenderer(void)
-        {
-            /// Delete context and invalidate current context
-            glfwMakeContextCurrent(nullptr);
-        }
+    void OpenGLRenderer::initializeRenderer(void)
+    {
+        /// Get OpenGL Version, Vendor, and Renderer
+        glGetIntegerv(GL_MAJOR_VERSION, &OpenGLVersion[0]);
+        glGetIntegerv(GL_MINOR_VERSION, &OpenGLVersion[1]);
 
-        void OpenGLRenderer::configureDeviceContext(void)
-        {
+        Vendor   = glGetString(GL_VENDOR);
+        Renderer = glGetString(GL_RENDERER);
 
-        }
-
-        void OpenGLRenderer::makeDeviceContextCurrent(void)
-        {
-            glfwMakeContextCurrent(Window);
-        }
+        // Initialize glViewport
+        setViewPort(RendererXPosition, RendererYPosition, RendererWidth, RendererHeight);
+    }
 
 
-        void OpenGLRenderer::resetDeviceContext(void)
-        {
-            glfwMakeContextCurrent(nullptr);
-            glfwMakeContextCurrent(Window);
-        }
+    void OpenGLRenderer::destroyRenderer(void)
+    {
+        /// Delete context and invalidate current context
+        glfwMakeContextCurrent(nullptr);
+    }
+
+    void OpenGLRenderer::configureDeviceContext(void)
+    {
+
+    }
+
+    void OpenGLRenderer::makeDeviceContextCurrent(void)
+    {
+        glfwMakeContextCurrent(Window);
+    }
 
 
-        void OpenGLRenderer::deleteDeviceContext(void)
-        {
-
-        }
-
-        void OpenGLRenderer::enableMultisampling(uint32_t samplingLevel)
-        {
-            MultisamplingLevel = samplingLevel;
-
-            glEnable(GL_MULTISAMPLE);
-        }
-
-        void OpenGLRenderer::setViewPort(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
-        {
-            /// Update renderer view port sizes
-            RendererXPosition   = x;
-            RendererYPosition   = y;
-            RendererWidth       = width;
-            RendererHeight      = height;
-
-            /// Size viewport to specificed dimensions. 
-            glViewport(RendererXPosition, RendererYPosition, RendererWidth, RendererHeight);
-        }
-
-        void OpenGLRenderer::setSize(uint32_t width, uint32_t height)
-        {
-            RendererWidth   = width;
-            RendererHeight  = height;
-
-            /// Size viewport to specificed dimensions. 
-            glViewport(RendererXPosition, RendererYPosition, RendererWidth, RendererHeight);
-        }
+    void OpenGLRenderer::resetDeviceContext(void)
+    {
+        glfwMakeContextCurrent(nullptr);
+        glfwMakeContextCurrent(Window);
+    }
 
 
-        void OpenGLRenderer::setXPosition(uint32_t x)
-        {
-            /// update class variable
-            RendererXPosition = x;
+    void OpenGLRenderer::deleteDeviceContext(void)
+    {
 
-            /// Size viewport to specificed dimensions. 
-            glViewport(RendererXPosition, RendererYPosition, RendererWidth, RendererHeight);
-        }
+    }
 
-        void OpenGLRenderer::setYPosition(uint32_t y)
-        {
-            /// update class variable
-            RendererYPosition = y;
+    void OpenGLRenderer::enableMultisampling(uint32_t samplingLevel)
+    {
+        MultisamplingLevel = samplingLevel;
 
-            /// Size viewport to specificed dimensions. 
-            glViewport(RendererXPosition, RendererYPosition, RendererWidth, RendererHeight);
-        }
+        glEnable(GL_MULTISAMPLE);
+    }
 
-        void OpenGLRenderer::setWidth(uint32_t width)
-        {
-            /// update class variable
-            RendererWidth = width;
+    void OpenGLRenderer::setViewPort(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
+    {
+        /// Update renderer view port sizes
+        RendererXPosition   = x;
+        RendererYPosition   = y;
+        RendererWidth       = width;
+        RendererHeight      = height;
 
-            /// Size viewport to specificed dimensions. 
-            glViewport(RendererXPosition, RendererYPosition, RendererWidth, RendererHeight);
-        }
+        /// Size viewport to specificed dimensions. 
+        glViewport(RendererXPosition, RendererYPosition, RendererWidth, RendererHeight);
+    }
 
-        void OpenGLRenderer::setHeight(uint32_t height)
-        {
-            /// update class variable
-            RendererHeight = height;
+    void OpenGLRenderer::setSize(uint32_t width, uint32_t height)
+    {
+        RendererWidth   = width;
+        RendererHeight  = height;
 
-            /// Size viewport to specificed dimensions. 
-            glViewport(RendererXPosition, RendererYPosition, RendererWidth, RendererHeight);
-        }
+        /// Size viewport to specificed dimensions. 
+        glViewport(RendererXPosition, RendererYPosition, RendererWidth, RendererHeight);
+    }
 
-        void OpenGLRenderer::enableVSync(void)
-        {
-            /// Enabled adaptive VSync
-            glfwSwapInterval(-1);
-        }
 
-        void OpenGLRenderer::disableVSync(void)
-        {
-            /// Disable VSync
-            glfwSwapInterval(0);
-        }
+    void OpenGLRenderer::setXPosition(uint32_t x)
+    {
+        /// update class variable
+        RendererXPosition = x;
 
-        void OpenGLRenderer::presentAndSwapBuffers(void)
-        {
-            glfwSwapBuffers(Window);
-        }
+        /// Size viewport to specificed dimensions. 
+        glViewport(RendererXPosition, RendererYPosition, RendererWidth, RendererHeight);
+    }
 
-        void OpenGLRenderer::enableWireframeMode(void)
-        {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        }
+    void OpenGLRenderer::setYPosition(uint32_t y)
+    {
+        /// update class variable
+        RendererYPosition = y;
 
-        void OpenGLRenderer::disableWireframeMode(void)
-        {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        }
+        /// Size viewport to specificed dimensions. 
+        glViewport(RendererXPosition, RendererYPosition, RendererWidth, RendererHeight);
+    }
 
-        void OpenGLRenderer::enableDepthTest(void)
-        {
-            glEnable(GL_DEPTH_TEST);
-        }
+    void OpenGLRenderer::setWidth(uint32_t width)
+    {
+        /// update class variable
+        RendererWidth = width;
 
-        void OpenGLRenderer::disableDepthTest(void)
-        {
-            glEnable(0);
-        }
+        /// Size viewport to specificed dimensions. 
+        glViewport(RendererXPosition, RendererYPosition, RendererWidth, RendererHeight);
+    }
+
+    void OpenGLRenderer::setHeight(uint32_t height)
+    {
+        /// update class variable
+        RendererHeight = height;
+
+        /// Size viewport to specificed dimensions. 
+        glViewport(RendererXPosition, RendererYPosition, RendererWidth, RendererHeight);
+    }
+
+    void OpenGLRenderer::enableVSync(void)
+    {
+        /// Enabled adaptive VSync
+        glfwSwapInterval(-1);
+    }
+
+    void OpenGLRenderer::disableVSync(void)
+    {
+        /// Disable VSync
+        glfwSwapInterval(0);
+    }
+
+    void OpenGLRenderer::presentAndSwapBuffers(void)
+    {
+        glfwSwapBuffers(Window);
+    }
+
+    void OpenGLRenderer::enableWireframeMode(void)
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    }
+
+    void OpenGLRenderer::disableWireframeMode(void)
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    }
+
+    void OpenGLRenderer::enableDepthTest(void)
+    {
+        glEnable(GL_DEPTH_TEST);
+    }
+
+    void OpenGLRenderer::disableDepthTest(void)
+    {
+        glEnable(0);
     }
 }
 

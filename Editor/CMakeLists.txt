@@ -24,10 +24,6 @@ project(ForerunnerEditor LANGUAGES CXX)
 
 set (EDITOR_SOURCE_FILES EditorCore.h EditorCore.cpp)
 
-if (WIN32)
-    list(APPEND EDITOR_SOURCE_FILES ForerunnerEditor.exe.manifest)
-endif()
-
 add_executable(ForerunnerEditor ${EDITOR_SOURCE_FILES})
 
 # Specify compile options for definition
@@ -41,7 +37,3 @@ set (TargetLinkLibs FRWindowLibrary)
 # Define the target configuration in terms of compile options, directories, definitions, etc..
 target_include_directories(ForerunnerEditor PRIVATE FRWindowLibrary)
 target_link_libraries(ForerunnerEditor PRIVATE ${TargetLinkLibs})
-
-# CMake learned to honor *.manifest source files with MSVC tools. 
-# Manifest files named as sources of .exe and .dll targets will be merged with linker-generated manifests 
-# and embedded in the binary.

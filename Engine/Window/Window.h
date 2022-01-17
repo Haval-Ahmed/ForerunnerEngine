@@ -17,49 +17,35 @@
 
 namespace ForerunnerEngine
 {
-    namespace ForerunnerWindow
+    // Max number of callback functions - we can resize this value later once we have a better estimate
+    constexpr uint32_t MAX_CALLBACK_FUNCTIONS = 256;
+
+    enum MouseButtonEvent : uint32_t
     {
-        // Max number of callback functions - we can resize this value later once we have a better estimate
-        constexpr uint32_t MAX_CALLBACK_FUNCTIONS = 256;
+        MOUSE_LBUTTON_PRESSED,
+        MOUSE_RBUTTON_PRESSED,
+        MOUSE_MBUTTON_PRESSED,
+        MOUSE_LBUTTON_RELEASED,
+        MOUSE_RBUTTON_RELEASED,
+        MOUSE_MBUTTON_RELEASED,
+    };
 
-        // Declare callback function parameters
-        using MouseMoveCallback                 = void(*)(uint32_t MouseCoordinateX, uint32_t MouseCoordinateY);
-        using MouseScrollWheelCallback          = void(*)(uint32_t ScrollValue);
-        using MouseButtonPressedCallback        = void(*)(uint32_t MouseCoordinateX, uint32_t MouseCoordinateY);
-        using MouseButtonReleasedCallback       = void(*)(uint32_t MouseCoordinateX, uint32_t MouseCoordinateY);
-        using WindowResizeCallback              = void(*)(uint32_t Width, uint32_t Height);
-        using WindowActivatedCallback           = void(*);
-        using WindowDeactivatedCallback         = void(*);
-        using WindowResolutionChangedCallback   = void(*)(uint32_t Width, uint32_t Height);
-        using WindowDragAndDropCallback         = void(*)(const char* FilePath);
-
-        enum MouseButtonEvent : uint32_t
-        {
-            MOUSE_LBUTTON_PRESSED,
-            MOUSE_RBUTTON_PRESSED,
-            MOUSE_MBUTTON_PRESSED,
-            MOUSE_LBUTTON_RELEASED,
-            MOUSE_RBUTTON_RELEASED,
-            MOUSE_MBUTTON_RELEASED,
-        };
-
-        struct EventWindowType
-        {
-            int32_t             MouseMoved;
-            int32_t             MouseXCoordinate;
-            int32_t             MouseYCoordinate;
-            int32_t             MouseButtonPressed;
-            int32_t             MouseButtonReleased;
-            MouseButtonEvent    MouseEvent;
-            int32_t             WindowResizeRequested;
-            int32_t             WindowDragAndDrop;
-            int32_t             KeyboardButtonPressed;
-            int32_t             KeyboardButtonReleased;
-            int32_t             ControllerAdded;
-            int32_t             ControllerLost;
-            int32_t             ControllerEvent;
-        };
-    }
+    struct EventWindowType
+    {
+        int32_t             MouseMoved;
+        int32_t             MouseXCoordinate;
+        int32_t             MouseYCoordinate;
+        int32_t             MouseButtonPressed;
+        int32_t             MouseButtonReleased;
+        MouseButtonEvent    MouseEvent;
+        int32_t             WindowResizeRequested;
+        int32_t             WindowDragAndDrop;
+        int32_t             KeyboardButtonPressed;
+        int32_t             KeyboardButtonReleased;
+        int32_t             ControllerAdded;
+        int32_t             ControllerLost;
+        int32_t             ControllerEvent;
+    };
 }
 
 
