@@ -54,18 +54,18 @@ namespace ForerunnerEngine
 
     void getRGBA(uint32_t color, uint8_t &red, uint8_t &green, uint8_t &blue, uint8_t &alpha)
     {
-        red     = color & 0x00FF0000;
-        green   = color & 0x0000FF00;
-        blue    = color & 0x000000FF;
-        alpha   = color & 0xFF000000;
+        red     = static_cast<uint8_t>(color & 0x00FF0000);
+        green   = static_cast<uint8_t>(color & 0x0000FF00);
+        blue    = static_cast<uint8_t>(color & 0x000000FF);
+        alpha   = static_cast<uint8_t>(color & 0xFF000000);
     }
 
     void getRGBA(uint32_t color, float &red, float &green, float &blue, float &alpha)
     {
-        red     = (color & 0x00FF0000) * FLOAT_RANGE;
-        green   = (color & 0x0000FF00) * FLOAT_RANGE;
-        blue    = (color & 0x000000FF) * FLOAT_RANGE;
-        alpha   = (color & 0xFF000000) * FLOAT_RANGE;
+        red     = static_cast<float>((color & 0x00FF0000)) * FLOAT_RANGE;
+        green   = static_cast<float>((color & 0x0000FF00)) * FLOAT_RANGE;
+        blue    = static_cast<float>((color & 0x000000FF)) * FLOAT_RANGE;
+        alpha   = static_cast<float>((color & 0xFF000000)) * FLOAT_RANGE;
     }
 }
 

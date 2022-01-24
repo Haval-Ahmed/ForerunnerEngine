@@ -44,16 +44,15 @@ namespace ForerunnerEngine
         //////////////////////////////////////////////////////////////////////////
         /// Set Shader Uniforms
         //////////////////////////////////////////////////////////////////////////
-        void setUniform(const char* uniformName, bool uniformValue) const;
-        void setUniform(const char* uniformName, uint32_t uniformValue) const;
-        void setUniform(const char* uniformName, float uniformValue) const;
-        void setUniform(const char* uniformName, const glm::vec2& uniformValue) const;
-        void setUniform(const char* uniformName, float x, float y) const;
-        void setUniform(const char* uniformName, const glm::vec3& uniformValue) const;
-        void setUniform(const char* uniformName, float x, float y, float z) const;
-        void setUniform(const char* uniformName, const glm::vec4& uniformValue) const;
-        void setUniform(const char* uniformName, float x, float y, float z, float w) const;
-        void setUniform(const char* uniformName, const glm::mat4& uniformValue) const;
+        void setInt(const char* uniformName, int32_t uniformValue) const;
+        void setFloat(const char* uniformName, float uniformValue) const;
+        void setVector2f(const char* uniformName, const glm::vec2& uniformValue) const;
+        void setVector2f(const char* uniformName, float x, float y) const;
+        void setVector3f(const char* uniformName, const glm::vec3& uniformValue) const;
+        void setVector3f(const char* uniformName, float x, float y, float z) const;
+        void setVector4f(const char* uniformName, const glm::vec4& uniformValue) const;
+        void setVector4f(const char* uniformName, float x, float y, float z, float w) const;
+        void setMatrix4f(const char* uniformName, const glm::mat4& uniformValue) const;
 
     protected:
 

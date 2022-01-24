@@ -6,6 +6,7 @@
 /// Standard Libraries
 //////////////////////////////////////////////////////////////////////////
 #include <iostream>
+#include <string>
 #include <cstdint>
 
 //////////////////////////////////////////////////////////////////////////
@@ -46,6 +47,7 @@ void processKeyboardInput(GLFWwindow* window);
 void windowResizingCallback(GLFWwindow* window, int32_t width, int32_t height);
 void processMouseMovement(GLFWwindow* window, double xPosition, double yPosition);
 void processMouseScroll(GLFWwindow* window, double xOffset, double yOffset);
+void processMouseClick(GLFWwindow* window, int button, int action, int mods);
 
 int main()
 {
@@ -58,7 +60,7 @@ int main()
 
     // glfw window creation
     // -------------------------------------------------------------------------------
-    GLFWwindow* forerunnerWindow = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Window Test", NULL, NULL);
+    GLFWwindow* forerunnerWindow = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Render Test", NULL, NULL);
 
     // glfw: check if valid
     // -------------------------------------------------------------------------------
@@ -84,6 +86,10 @@ int main()
     // glfw: register mouse scroll callback
     // -------------------------------------------------------------------------------
     glfwSetScrollCallback(forerunnerWindow, processMouseScroll);
+
+    // glfw: register mouse scroll callback
+    // -------------------------------------------------------------------------------
+    glfwSetMouseButtonCallback(forerunnerWindow, processMouseClick);
 
     // glfw: tell GLFW to capture our mouse
     // -------------------------------------------------------------------------------
@@ -121,15 +127,21 @@ int main()
 
     // Create primitives
     // -------------------------------------------------------------------------------
-    ForerunnerEngine::Rectangle2DPrimitive Rect2D;
+    ForerunnerEngine::OpenGLPrimitive2D Primitive(ForerunnerEngine::PRIMITIVE_TYPE_2D::VERTICAL_LINE_2D);
 
-    Rect2D.setColor(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
-    Rect2D.setPosition(glm::vec3(100.0f, 100.0f, 0.0f));
-    Rect2D.setScale(glm::vec3(50.0f, 50.0f, 0.0f));
+    // Modify primitives
+    // -------------------------------------------------------------------------------
+    Primitive.setPosition(glm::vec3(static_cast<float>(WINDOW_WIDTH / 2), static_cast<float>(WINDOW_HEIGHT / 2), 0.0F));
+    Primitive.setScale(glm::vec3(10.0F, 10.0F, 0.0F));
+    Primitive.getTexture().loadTextureImage("C:/Users/Haval/Downloads/Wall.jpg");
 
     // Create projection matrix
     // -------------------------------------------------------------------------------
     glm::mat4 Ortho2DMatrix = glm::ortho(0.0f, static_cast<float>(WINDOW_WIDTH), 0.0f, static_cast<float>(WINDOW_HEIGHT), -1.0f, 1.0f);
+
+    // specify viewport
+    // -------------------------------------------------------------------------------
+    glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     // render loop
     // -------------------------------------------------------------------------------
@@ -158,9 +170,10 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // opengl: render
+        // opengl: update and render
         // -------------------------------------------------------------------------------
-        Rect2D.draw(0.0f, Ortho2DMatrix);
+        Primitive.update(0.0f);
+        Primitive.draw(0.0f, Ortho2DMatrix);
 
         // imgui: Backend rendering for OpenGL
         // -------------------------------------------------------------------------------
@@ -207,10 +220,22 @@ void windowResizingCallback(GLFWwindow* window, int32_t width, int32_t height)
 // ---------------------------------------------------------------------------------------------
 void processMouseMovement(GLFWwindow* window, double xPosition, double yPosition)
 {
-
+    // Buffer to hold text coordinates
+    std::string textCoords = "X: " + std::to_string(xPosition) + " Y: " + std::to_string(yPosition);
+    
+    // Update the window test with new mouse position
+    glfwSetWindowTitle(window, textCoords.c_str());
 }
 
 void processMouseScroll(GLFWwindow* window, double xOffset, double yOffset)
 {
 
+}
+
+void processMouseClick(GLFWwindow* window, int button, int action, int mods)
+{
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+    {
+        std::cout << "Clicked!" << std::endl;
+    }
 }

@@ -26,12 +26,26 @@
 ///               v
 ///             (0,-1)
 //////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////
+/// Texture Rangle For OpenGL
+///(0,1)-----(1, 1)
+///  ^       |
+///  |       |
+///  |       |
+///  |       |
+///  |       |
+///(0,0)----->(1,0)
+//////////////////////////////////////////////////////////////////////////
+
 namespace ForerunnerEngine
 {
+    static constexpr uint32_t STRIDE_2D = 4;
+    static constexpr uint32_t STRIDE_3D = 8;
+
     struct Vertices2D
     {
-        Vertices2D( glm::vec2 vertexPosition,
-                    glm::vec2 textureCoordinates)
+        Vertices2D( glm::vec2 vertexPosition, glm::vec2 textureCoordinates) noexcept
         {
             this->VertexPosition        = vertexPosition;
             this->TextureCoordinates    = textureCoordinates;
@@ -43,9 +57,7 @@ namespace ForerunnerEngine
 
     struct Vertices3D
     {
-        Vertices3D( glm::vec3 vertexPosition,
-                    glm::vec3 normalPosition,
-                    glm::vec2 textureCoordinate)
+        Vertices3D( glm::vec3 vertexPosition, glm::vec3 normalPosition, glm::vec2 textureCoordinate) noexcept
         {
             this->VertexPosition    = vertexPosition;
             this->NormalPosition    = normalPosition;

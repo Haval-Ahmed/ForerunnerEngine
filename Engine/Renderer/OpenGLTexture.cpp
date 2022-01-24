@@ -46,12 +46,12 @@ namespace ForerunnerEngine
         // Load image
         unsigned char* imageData = ForerunnerEngine::loadImage(filePath, &imageWidth, &imageHeight, &imageNumChannels);
 
-        // Activate and bind texture
-        this->useTexture();
-
         // If valid data, generate a texture and mipmaps
         if (imageData)
         {
+            // Bind texture
+            glBindTexture(GL_TEXTURE_2D, TextureID);
+
             // Check if image contains alpha channel
             if (ForerunnerEngine::RGB_NUM_CHANNELS == imageNumChannels)
             {
@@ -59,7 +59,7 @@ namespace ForerunnerEngine
             }
             else if (ForerunnerEngine::RGBA_NUM_CHANNELS == imageNumChannels)
             {
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
             }
 
             glGenerateMipmap(GL_TEXTURE_2D);

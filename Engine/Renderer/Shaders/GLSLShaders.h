@@ -7,7 +7,7 @@
 
 namespace ForerunnerEngine
 {
-   static const char* BASIC_3D_VERTEX_SHADER = \
+    static const char* BASIC_3D_VERTEX_SHADER = \
         "#version 430 core \n\
         \
         layout (location = 0) in vec3 position; \n\
@@ -61,11 +61,12 @@ namespace ForerunnerEngine
         "layout (location = 0) out vec4 Out_Color;\n"
         "in vec2 Frag_UV;\n"
         "in vec4 Frag_Color;\n"
-        "uniform sampler2D Texture;\n"
+        "uniform int ChangeColor;\n"
+        "uniform sampler2D Texture1;\n"
         "void main()\n"
         "{\n"
-        "    Out_Color = Frag_Color;\n"
-//"    Out_Color = Frag_Color * texture(Texture, Frag_UV.st);\n"
+        //"    Out_Color = Frag_Color * texture(Texture1, Frag_UV.st);\n"
+        "    Out_Color = texture(Texture1, Frag_UV.st);\n"
         "}\n";
 
     static const char* BASIC_2D_TEXT_VERTEX_SHADER = \

@@ -3,13 +3,6 @@
 /// @author Haval Ahmed (Haval-Ahmed)
 
 //////////////////////////////////////////////////////////////////////////
-/// Standard Libraries
-//////////////////////////////////////////////////////////////////////////
-#ifdef _DEBUG
-    #include <iostream>
-#endif
-
-//////////////////////////////////////////////////////////////////////////
 /// Forerunner Libraries
 //////////////////////////////////////////////////////////////////////////
 #include "OpenGLRenderer.h"
@@ -204,35 +197,37 @@ namespace ForerunnerEngine
     {
         (void)length;
         (void)userParam;
+        (void)message;
+        (void)id;
 
-        std::cout << "//////////////////////////////////////////////////////////////////////////" << std::endl;
-        std::cout << "OpenGL Error ID: " << id << std::endl; 
-        std::cout << "OpenGL Error Message: " << message << std::endl;
+        // std::cout << "//////////////////////////////////////////////////////////////////////////" << std::endl;
+        // std::cout << "OpenGL Error ID: " << id << std::endl; 
+        // std::cout << "OpenGL Error Message: " << message << std::endl;
         
         switch (source)
         {
             case GL_DEBUG_SOURCE_API:
-                std::cout << "Source Error: GL_DEBUG_SOURCE_API" << std::endl;
+                // std::cout << "Source Error: GL_DEBUG_SOURCE_API" << std::endl;
                 break;
 
             case GL_DEBUG_SOURCE_WINDOW_SYSTEM:
-                std::cout << "Source Error: GL_DEBUG_SOURCE_WINDOW_SYSTEM" << std::endl;
+                // std::cout << "Source Error: GL_DEBUG_SOURCE_WINDOW_SYSTEM" << std::endl;
                 break;
 
             case GL_DEBUG_SOURCE_SHADER_COMPILER:
-                std::cout << "Source Error: GL_DEBUG_SOURCE_SHADER_COMPILER" << std::endl;
+                // std::cout << "Source Error: GL_DEBUG_SOURCE_SHADER_COMPILER" << std::endl;
                 break;
 
             case GL_DEBUG_SOURCE_THIRD_PARTY:
-                std::cout << "Source Error: GL_DEBUG_SOURCE_THIRD_PARTY" << std::endl;
+                // std::cout << "Source Error: GL_DEBUG_SOURCE_THIRD_PARTY" << std::endl;
                 break;
 
             case  GL_DEBUG_SOURCE_APPLICATION:
-                std::cout << "Source Error: GL_DEBUG_SOURCE_APPLICATION" << std::endl;
+                // std::cout << "Source Error: GL_DEBUG_SOURCE_APPLICATION" << std::endl;
                 break;
 
             case GL_DEBUG_SOURCE_OTHER:
-                std::cout << "Source Error: GL_DEBUG_SOURCE_OTHER" << std::endl;
+                // std::cout << "Source Error: GL_DEBUG_SOURCE_OTHER" << std::endl;
                 break;
 
             default:
@@ -242,43 +237,43 @@ namespace ForerunnerEngine
         switch (type)
         {
             case GL_DEBUG_TYPE_ERROR:
-                std::cout << "Type Error: GL_DEBUG_TYPE_ERROR" << std::endl;
+                // std::cout << "Type Error: GL_DEBUG_TYPE_ERROR" << std::endl;
                 break;
 
             case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
-                std::cout << "Type Error: GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR" << std::endl;
+                // std::cout << "Type Error: GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR" << std::endl;
                 break;
 
             case  GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
-                std::cout << "Type Error: GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR" << std::endl;
+                // std::cout << "Type Error: GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR" << std::endl;
                 break;
 
             case GL_DEBUG_TYPE_PORTABILITY:
-                std::cout << "Type Error: GL_DEBUG_TYPE_PORTABILITY" << std::endl;
+                // std::cout << "Type Error: GL_DEBUG_TYPE_PORTABILITY" << std::endl;
                 break;
 
             case GL_DEBUG_TYPE_PERFORMANCE:
-                std::cout << "Type Error: GL_DEBUG_TYPE_PERFORMANCE" << std::endl;
+                // std::cout << "Type Error: GL_DEBUG_TYPE_PERFORMANCE" << std::endl;
                 break;
 
             case GL_DEBUG_TYPE_MARKER:
-                std::cout << "Type Error: GL_DEBUG_TYPE_MARKER" << std::endl;
+                // std::cout << "Type Error: GL_DEBUG_TYPE_MARKER" << std::endl;
                 break;
 
             case GL_DEBUG_TYPE_PUSH_GROUP:
-                std::cout << "Type Error: GL_DEBUG_TYPE_PUSH_GROUP" << std::endl;
+                // std::cout << "Type Error: GL_DEBUG_TYPE_PUSH_GROUP" << std::endl;
                 break;
 
             case GL_DEBUG_TYPE_POP_GROUP:
-                std::cout << "Type Error: GL_DEBUG_TYPE_POP_GROUP" << std::endl;
+                // std::cout << "Type Error: GL_DEBUG_TYPE_POP_GROUP" << std::endl;
                 break;
 
             case GL_DEBUG_TYPE_OTHER:
-                std::cout << "Type Error: GL_DEBUG_TYPE_OTHER" << std::endl;
+                // std::cout << "Type Error: GL_DEBUG_TYPE_OTHER" << std::endl;
                 break;
 
             case GL_DONT_CARE:
-                std::cout << "Type Error: GL_DONT_CARE" << std::endl;
+                // std::cout << "Type Error: GL_DONT_CARE" << std::endl;
                 break;
 
             default:
@@ -288,19 +283,19 @@ namespace ForerunnerEngine
         switch (severity)
         {
             case GL_DEBUG_SEVERITY_LOW:
-                std::cout << "Severity Level: GL_DEBUG_SEVERITY_LOW" << std::endl;
+                // std::cout << "Severity Level: GL_DEBUG_SEVERITY_LOW" << std::endl;
                 break;
 
             case GL_DEBUG_SEVERITY_MEDIUM:
-                std::cout << "Severity Level: GL_DEBUG_SEVERITY_MEDIUM" << std::endl;
+                // std::cout << "Severity Level: GL_DEBUG_SEVERITY_MEDIUM" << std::endl;
                 break;
 
             case GL_DEBUG_SEVERITY_HIGH:
-                std::cout << "Severity Level: GL_DEBUG_SEVERITY_HIGH" << std::endl;
+                // std::cout << "Severity Level: GL_DEBUG_SEVERITY_HIGH" << std::endl;
                 break;
 
             case GL_DEBUG_SEVERITY_NOTIFICATION:
-                std::cout << "Severity Level: GL_DEBUG_SEVERITY_NOTIFICATION" << std::endl;
+                // std::cout << "Severity Level: GL_DEBUG_SEVERITY_NOTIFICATION" << std::endl;
                 break;
 
             default:

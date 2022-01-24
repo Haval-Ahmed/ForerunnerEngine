@@ -125,52 +125,47 @@ namespace ForerunnerEngine
         glLinkProgram(shaderProgram);
     }
 
-    void OpenGLShader::setUniform(const char* uniformName, bool uniformValue) const
-    {
-        glUniform1i(glGetUniformLocation(shaderProgram, uniformName), (int)uniformValue);
-    }
-
-    void OpenGLShader::setUniform(const char* uniformName, uint32_t uniformValue) const
+    void OpenGLShader::setInt(const char* uniformName, int32_t uniformValue) const
     {
         glUniform1i(glGetUniformLocation(shaderProgram, uniformName), uniformValue);
     }
 
-    void OpenGLShader::setUniform(const char* uniformName, float uniformValue) const
+    void OpenGLShader::setFloat(const char* uniformName, float uniformValue) const
     {
         glUniform1f(glGetUniformLocation(shaderProgram, uniformName), uniformValue);
     }
 
-    void OpenGLShader::setUniform(const char* uniformName, const glm::vec2& uniformValue) const
+    void OpenGLShader::setVector2f(const char* uniformName, const glm::vec2& uniformValue) const
     {
         glUniform2f(glGetUniformLocation(shaderProgram, uniformName), uniformValue.x, uniformValue.y);
     }
 
-    void OpenGLShader::setUniform(const char* uniformName, float x, float y) const
+    void OpenGLShader::setVector2f(const char* uniformName, float x, float y) const
     {
         glUniform2f(glGetUniformLocation(shaderProgram, uniformName), x, y);
     }
 
-    void OpenGLShader::setUniform(const char* uniformName, const glm::vec3& uniformValue) const
+    void OpenGLShader::setVector3f(const char* uniformName, const glm::vec3& uniformValue) const
     {
         glUniform3f(glGetUniformLocation(shaderProgram, uniformName), uniformValue.x, uniformValue.y, uniformValue.z);
     }
 
-    void OpenGLShader::setUniform(const char* uniformName, float x, float y, float z) const
+    void OpenGLShader::setVector3f(const char* uniformName, float x, float y, float z) const
     {
         glUniform3f(glGetUniformLocation(shaderProgram, uniformName), x, y, z);
     }
 
-    void OpenGLShader::setUniform(const char* uniformName, const glm::vec4& uniformValue) const
+    void OpenGLShader::setVector4f(const char* uniformName, const glm::vec4& uniformValue) const
     {
         glUniform4f(glGetUniformLocation(shaderProgram, uniformName), uniformValue.x, uniformValue.y, uniformValue.z, uniformValue.w);
     }
 
-    void OpenGLShader::setUniform(const char* uniformName, float x, float y, float z, float w) const
+    void OpenGLShader::setVector4f(const char* uniformName, float x, float y, float z, float w) const
     {
         glUniform4f(glGetUniformLocation(shaderProgram, uniformName), x, y, z, w);
     }
 
-    void OpenGLShader::setUniform(const char* uniformName, const glm::mat4& uniformValue) const
+    void OpenGLShader::setMatrix4f(const char* uniformName, const glm::mat4& uniformValue) const
     {
         glUniformMatrix4fv(glGetUniformLocation(shaderProgram, uniformName), 1, GL_FALSE, &uniformValue[0][0]);
     }
