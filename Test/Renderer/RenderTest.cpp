@@ -127,12 +127,12 @@ int main()
 
     // Create primitives
     // -------------------------------------------------------------------------------
-    ForerunnerEngine::OpenGLPrimitive2D Primitive(ForerunnerEngine::PRIMITIVE_TYPE_2D::VERTICAL_LINE_2D);
+    ForerunnerEngine::OpenGLPrimitive2D Primitive(ForerunnerEngine::PRIMITIVE_TYPE_2D::OVAL_2D);
 
     // Modify primitives
     // -------------------------------------------------------------------------------
     Primitive.setPosition(glm::vec3(static_cast<float>(WINDOW_WIDTH / 2), static_cast<float>(WINDOW_HEIGHT / 2), 0.0F));
-    Primitive.setScale(glm::vec3(10.0F, 10.0F, 0.0F));
+    Primitive.setScale(glm::vec3(100.0F, 100.0F, 0.0F));
     Primitive.getTexture().loadTextureImage("C:/Users/Haval/Downloads/Wall.jpg");
 
     // Create projection matrix

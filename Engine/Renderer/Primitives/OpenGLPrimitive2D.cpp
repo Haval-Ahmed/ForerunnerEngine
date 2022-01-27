@@ -173,7 +173,7 @@ namespace ForerunnerEngine
             case OVAL_2D:
             {
                 std::shared_ptr<Oval2DPrimitiveData> VerticeData    = Oval2DPrimitiveData::getInstance();
-                PrimitiveDrawType                                   = GL_TRIANGLES;
+                PrimitiveDrawType                                   = GL_TRIANGLE_FAN;
                 PrimitiveVerticeCount                               = VerticeData->Vertices.size();
                 glBufferData(GL_ARRAY_BUFFER, VerticeData->Vertices.size() * STRIDE_2D * sizeof(float), VerticeData->Vertices.data(), GL_STATIC_DRAW);
             }
@@ -222,7 +222,7 @@ namespace ForerunnerEngine
         // 2. Rotate
         if (ModelTransform.UpdateRotationThisFrame)
         {
-            // ModelTransform.ModelMatrix = glm::rotate(ModelTransform.ModelMatrix, glm::radians(ModelTransform.RotationAngle), glm::vec3(0.0F, 0.0F, 1.0F));
+            // In 2D, we only rotate in Z Axis (0, 0, 1)
             ModelTransform.ModelMatrix = glm::rotate(ModelTransform.ModelMatrix, ModelTransform.RotationAngle, glm::vec3(0.0F, 0.0F, 1.0F));
 
             // Get rotation into vec3 from rotation matrix

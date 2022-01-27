@@ -360,22 +360,31 @@ namespace ForerunnerEngine
         Oval2DPrimitiveData()
         {
             // Size vectors and reserve necessary space
-            Vertices.reserve(4);
+            Vertices.reserve(360);
 
             // Insert vertice data
             // -------------------------------------------------------------------------------
+            for (int i = 0; i < 360; i++)
+            {
+                float x = 0.5F * cosf(glm::radians(static_cast<float>(i)));
+                float y = sinf(glm::radians(static_cast<float>(i)));
 
-            // Top Right
-            Vertices.emplace_back(glm::vec2(0.5F, 0.5F), glm::vec2(1.0F, 1.0F));
+                // Calculate the normal/uv for each vertice (get length of the vector and then divide by length if not 0)
+                float uvX = x;
+                float uvY = y;
 
-            // Bottom Right
-            Vertices.emplace_back(glm::vec2(0.5F, -0.5F), glm::vec2(1.0F, 0.0F));
+                // Length of normal
+                float uvLength = sqrt(x * x + y * y);
 
-            // Bottom Left
-            Vertices.emplace_back(glm::vec2(-0.5F, -0.5F), glm::vec2(0.0F, 0.0F));
+                // Check to ensure length is not zero
+                if (glm::epsilonNotEqual(uvLength, 0.0F, glm::epsilon<float>()))
+                {
+                    uvX /= uvLength;
+                    uvY /= uvLength;
+                }
 
-            // Top Left
-            Vertices.emplace_back(glm::vec2(-0.5F, 0.5F), glm::vec2(0.0F, 1.0F));
+                Vertices.emplace_back(glm::vec2(x, y), glm::vec2(uvX, uvY));
+            }
         }
 
     public:
