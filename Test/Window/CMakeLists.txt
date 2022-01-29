@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-project(FRWindowTest LANGUAGES CXX)
+project(FRWindowTest LANGUAGES C CXX)
 
 add_executable(FRWindowTest WindowTest.cpp)
 
@@ -29,10 +29,13 @@ set (TargetCompileDefinitions)
 set (TargetCompileOptions)
 set (TargetIncludeDirs)
 
+
+
 # Link Libraries
 set (TargetLinkLibs FRWindow)
 
 # Define the target configuration in terms of compile options, directories, definitions, etc..
+target_compile_definitions(FRWindowTest PRIVATE ${TargetCompileDefinitions})
 target_compile_options(FRWindowTest PRIVATE ${TargetCompileOptions})
 target_include_directories(FRWindowTest PRIVATE ${TargetLinkLibs})
 target_link_libraries(FRWindowTest PRIVATE ${TargetLinkLibs})

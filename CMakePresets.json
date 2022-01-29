@@ -47,7 +47,7 @@
     },
     {
         "name": "Clang-Base",
-        "description": "Linux x64 Configuration",
+        "description": "Clang x64 Configuration",
         "generator": "Unix Makefiles",
         "inherits": "Base",
         "cacheVariables": 
@@ -59,7 +59,7 @@
         "vendor": {
             "microsoft.com/VisualStudioSettings/CMake/1.0": 
             {
-                "hostOS": ["Linux"]
+                "hostOS": ["macOS"]
             },
             "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
                 "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"

@@ -32,8 +32,12 @@ int main()
     // ------------------------------
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    #ifdef __APPLE__
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    #endif
 
     // glfw window creation
     // --------------------
@@ -62,6 +66,22 @@ int main()
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
+
+    // opengl - get renderer info
+    // ---------------------------------------
+    int32_t         OpenGLVersion[2] = { 0 };
+    const uint8_t*  Vendor;
+    const uint8_t*  Renderer;
+    
+    glGetIntegerv(GL_MAJOR_VERSION, &OpenGLVersion[0]);
+    glGetIntegerv(GL_MINOR_VERSION, &OpenGLVersion[1]);
+
+    Vendor   = glGetString(GL_VENDOR);
+    Renderer = glGetString(GL_RENDERER);
+
+    std::cout << "GL Version: " << OpenGLVersion[0] << "." << OpenGLVersion[1] << std::endl;
+    std::cout << "GL Vendor: " << Vendor << std::endl;
+    std::cout << "GL Renderer: " << Renderer << std::endl;
 
     // render loop
     // -----------

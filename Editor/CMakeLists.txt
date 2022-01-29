@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-project(ForerunnerEditor LANGUAGES CXX)
+project(ForerunnerEditor LANGUAGES C CXX)
 
 set (EDITOR_SOURCE_FILES EditorCore.h EditorCore.cpp)
 

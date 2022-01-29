@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-project(FRRendererTest LANGUAGES CXX)
+project(FRRendererTest LANGUAGES C CXX)
 
 add_executable(FRRendererTest RenderTest.cpp)
 

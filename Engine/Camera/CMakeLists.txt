@@ -10,7 +10,7 @@
 ###########################################################################
 ### Define the project
 ###########################################################################
-project(FRCamera)
+project(FRCamera LANGUAGES C CXX)
 
 set (CAMERA_FILES
     Camera.h 
