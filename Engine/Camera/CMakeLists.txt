@@ -25,8 +25,8 @@ add_library (FRCamera SHARED ${CAMERA_FILES})
 # Include Directories for Renderer
 target_include_directories(FRCamera 
     PUBLIC 
-        "${CMAKE_CURRENT_LIST_DIR}/"
-        "${CMAKE_CURRENT_LIST_DIR}/..")
+        ./
+        ../Config)
 
 # Link libraries
 target_link_libraries(FRCamera PUBLIC glm::glm)

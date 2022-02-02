@@ -40,8 +40,15 @@
 
 namespace ForerunnerEngine
 {
-    static constexpr uint32_t STRIDE_2D = 4;
-    static constexpr uint32_t STRIDE_3D = 8;
+    static constexpr uint32_t STRIDE_2D         = 4;
+    static constexpr uint32_t STRIDE_3D         = 8;
+
+    // OpenGL Offset Values
+    // Per Khronos: Specifies a offset of the first component of the first generic vertex attribute 
+    // in the array in the data store of the buffer currently bound to the GL_ARRAY_BUFFER target. 
+    // The initial value is 0.
+    static constexpr uint32_t VERTICE_2D_OFFSET_0 = 0;
+    static constexpr uint32_t VERTICE_2D_OFFSET_1 = 2 * sizeof(float);
 
     struct Vertices2D
     {

@@ -2,6 +2,8 @@
 /// @brief Primitive Renderer Object 2D class that contains necessary Renderer specific information to render an object
 /// @author Haval Ahmed
 
+#include <cstddef>
+
 //////////////////////////////////////////////////////////////////////////
 /// Forerunner Libraries
 //////////////////////////////////////////////////////////////////////////
@@ -197,7 +199,7 @@ namespace ForerunnerEngine
         glEnableVertexAttribArray(0);
 
         // UV/Texture attribute
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, STRIDE_2D * sizeof(float), (void*)offsetof(Vertices2D, Vertices2D::TextureCoordinates));
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, STRIDE_2D * sizeof(float), (void*)VERTICE_2D_OFFSET_1);
         glEnableVertexAttribArray(1);
 
         glBindVertexArray(0);

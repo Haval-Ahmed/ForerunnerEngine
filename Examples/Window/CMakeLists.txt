@@ -29,8 +29,6 @@ set (TargetCompileDefinitions)
 set (TargetCompileOptions)
 set (TargetIncludeDirs)
 
-
-
 # Link Libraries
 set (TargetLinkLibs FRWindow)
 

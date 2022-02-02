@@ -48,32 +48,45 @@
     {
         "name": "Clang-Base",
         "description": "Clang x64 Configuration",
-        "generator": "Unix Makefiles",
         "inherits": "Base",
+        "hidden": true,
         "cacheVariables": 
         {
             "CMAKE_BUILD_TYPE": "Debug",
             "CMAKE_C_COMPILER": "clang",
             "CMAKE_CXX_COMPILER": "clang++"
-        },
+        }
+    },
+    {
+        "name": "MacOS-Base",
+        "description": "MacOS x64 Configuration",
+        "inherits": "Clang-Base",
+        "hidden": true,
         "vendor": {
             "microsoft.com/VisualStudioSettings/CMake/1.0": 
             {
                 "hostOS": ["macOS"]
-            },
-            "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
-                "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
             }
-        }
-    },
-    {
-        "name": "Clang-Warnings",
-        "description": "Linux x64 Configuration with Dev Warnings",
-        "inherits": "Clang-Base",
+        },
+        "cacheVariables": {
+            "CMAKE_OSX_ARCHITECTURES" : "arm64;x86_64"
+        },
         "warnings": 
         {
             "dev": true
         }
+    },
+    {
+        "name": "MacOS-XCode",
+        "description": "Linux x64 Configuration with Dev Warnings",
+        "inherits": "MacOS-Base",
+        "generator": "Xcode"
+    },
+    {
+        "name": "MacOS-Unix-Makefiles",
+        "description": "Unix Makefiles x64 Configuration with Dev Warnings",
+        "inherits": "MacOS-Base",
+        "generator": "Unix Makefiles"
     }
     ],
     "buildPresets": [
@@ -102,28 +115,6 @@
             "name": "Clang-Clean-Build",
             "configurePreset": "Clang-Base",
             "inherits": "Clean-Build"
-        }
-    ],
-    "testPresets": [
-        {
-            "name": "Core-Test",
-            "description": "Enable output on failure",
-            "configurePreset": "Base",
-            "hidden": false,
-            "output": 
-            {
-                "outputOnFailure": true
-            }
-        },
-        {
-            "name": "MSVC-Core-Test",
-            "configurePreset": "MSVC-Base",
-            "inherits": "Core-Test"
-        },
-        {
-            "name": "Clang-Core-Test",
-            "configurePreset": "Clang-Base",
-            "inherits": "Core-Test"
         }
     ]
 }

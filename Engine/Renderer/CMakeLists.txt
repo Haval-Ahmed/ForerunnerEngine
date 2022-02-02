@@ -68,10 +68,14 @@ if (UNIX)
     list(APPEND TargetCompileDefines LINUX)
 endif()
 
+if (APPLE)
+    list(APPEND TargetCompileDefines APPLE)
+endif()
+
 if(MSVC)
     list(APPEND TargetCompileOptions /Zi /W4)
 else()
-    list(APPEND TargetCompileOptions)
+    list(APPEND TargetCompileOptions -Wno-invalid-offsetof)
 endif()
 
 # Specify target options

@@ -55,8 +55,12 @@ int main()
     // -------------------------------------------------------------------------------
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    #ifdef __APPLE__
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    #endif
 
     // glfw window creation
     // -------------------------------------------------------------------------------
@@ -118,7 +122,7 @@ int main()
 
     // opengl: identify glsl version
     // -------------------------------------------------------------------------------
-    const char* glslVersion = "#version 430";
+    const char* glslVersion = "#version 410";
 
     // Setup Platform/Renderer backends
     // -------------------------------------------------------------------------------
@@ -127,13 +131,13 @@ int main()
 
     // Create primitives
     // -------------------------------------------------------------------------------
-    ForerunnerEngine::OpenGLPrimitive2D Primitive(ForerunnerEngine::PRIMITIVE_TYPE_2D::OVAL_2D);
+    ForerunnerEngine::OpenGLPrimitive2D Primitive(ForerunnerEngine::PRIMITIVE_TYPE_2D::RECTANGLE_2D);
 
     // Modify primitives
     // -------------------------------------------------------------------------------
     Primitive.setPosition(glm::vec3(static_cast<float>(WINDOW_WIDTH / 2), static_cast<float>(WINDOW_HEIGHT / 2), 0.0F));
     Primitive.setScale(glm::vec3(100.0F, 100.0F, 0.0F));
-    Primitive.getTexture().loadTextureImage("C:/Users/Haval/Downloads/Wall.jpg");
+    Primitive.setColor(glm::vec4(1.0F, 0.0F, 0.0F, 1.0F));
 
     // Create projection matrix
     // -------------------------------------------------------------------------------

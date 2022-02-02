@@ -65,8 +65,7 @@ namespace ForerunnerEngine
         "uniform sampler2D Texture1;\n"
         "void main()\n"
         "{\n"
-        //"    Out_Color = Frag_Color * texture(Texture1, Frag_UV.st);\n"
-        "    Out_Color = texture(Texture1, Frag_UV.st);\n"
+        "    Out_Color = Frag_Color * texture(Texture1, Frag_UV.st);\n"
         "}\n";
 
     static const char* BASIC_2D_TEXT_VERTEX_SHADER = \
