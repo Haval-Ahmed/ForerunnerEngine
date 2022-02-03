@@ -22,15 +22,15 @@ namespace ForerunnerEngine
         , m_cameraZoomLevel(ZOOM_DEFAULT)
     {
         // Set the vectors y component to 1.0f
-        m_worldUpDirection.setY(1.0f);
+        m_worldUpDirection = glm::vec3(0.0f, 1.0f, 0.0f);
 
         // Update view matrix after initial configuration
         this->updateViewMatrix();
     }
 
-    FRMath::Matrix4x4 Camera::getViewMatrix()
+    glm::mat4 Camera::getViewMatrix()
     {
-        return FRMath::getLookAtRightHandMatrix(m_cameraPosition, m_cameraPosition + m_frontVector, m_upVector);
+        return glm::lookAtRH(m_cameraPosition, m_cameraPosition + m_frontVector, m_upVector);
     }
 
     void Camera::setCameraSpeed(float cameraSpeed)

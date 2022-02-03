@@ -55,7 +55,7 @@ int main()
     // -------------------------------------------------------------------------------
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     #ifdef __APPLE__
@@ -122,7 +122,7 @@ int main()
 
     // opengl: identify glsl version
     // -------------------------------------------------------------------------------
-    const char* glslVersion = "#version 410";
+    const char* glslVersion = "#version 400";
 
     // Setup Platform/Renderer backends
     // -------------------------------------------------------------------------------

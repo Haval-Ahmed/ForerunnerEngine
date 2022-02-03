@@ -22,7 +22,7 @@
 
 project(ForerunnerEditor LANGUAGES C CXX)
 
-set (EDITOR_SOURCE_FILES EditorCore.h EditorCore.cpp)
+set (EDITOR_SOURCE_FILES EditorCore.cpp)
 
 add_executable(ForerunnerEditor ${EDITOR_SOURCE_FILES})
 
@@ -32,8 +32,7 @@ set (TargetCompileOptions)
 set (TargetIncludeDirs)
 
 # Link Libraries
-set (TargetLinkLibs FRWindowLibrary)
+set (TargetLinkLibs FRRenderer)
 
 # Define the target configuration in terms of compile options, directories, definitions, etc..
-target_include_directories(ForerunnerEditor PRIVATE FRWindowLibrary)
 target_link_libraries(ForerunnerEditor PRIVATE ${TargetLinkLibs})

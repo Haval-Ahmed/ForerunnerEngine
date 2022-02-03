@@ -45,7 +45,7 @@ namespace ForerunnerEngine
         //////////////////////////////////////////////////////////////////////////
         /// Utilitiies
         //////////////////////////////////////////////////////////////////////////
-        virtual FRMath::Matrix4x4 getViewMatrix();
+        virtual glm::mat4 getViewMatrix();
         virtual void updateCameraAngle(float yawOffset, float pitchOffset)              = 0;
         virtual void updateCameraZoomLevel(float yOffset)                               = 0;
         virtual void updateCameraPosition(CAMERA_MOVEMENT direction, double deltaTime)  = 0;
@@ -83,11 +83,11 @@ namespace ForerunnerEngine
         //////////////////////////////////////////////////////////////////////////
         /// Camera Vectors
         //////////////////////////////////////////////////////////////////////////
-        FRMath::Vector3D m_cameraPosition;
-        FRMath::Vector3D m_worldUpDirection;
-        FRMath::Vector3D m_frontVector;
-        FRMath::Vector3D m_rightVector;
-        FRMath::Vector3D m_upVector;
+        glm::vec3 m_cameraPosition;
+        glm::vec3 m_worldUpDirection;
+        glm::vec3 m_frontVector;
+        glm::vec3 m_rightVector;
+        glm::vec3 m_upVector;
 
         //////////////////////////////////////////////////////////////////////////
         /// Camera Angles

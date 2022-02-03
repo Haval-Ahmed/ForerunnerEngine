@@ -58,6 +58,22 @@
         }
     },
     {
+        "name": "Linux-Base",
+        "description": "Linux x64 Configuration",
+        "inherits": "Clang-Base",
+        "generator": "Unix Makefiles",
+        "vendor": {
+            "microsoft.com/VisualStudioSettings/CMake/1.0": 
+            {
+                "hostOS": ["Linux"]
+            }
+        },
+        "warnings": 
+        {
+            "dev": true
+        }
+    },
+    {
         "name": "MacOS-Base",
         "description": "MacOS x64 Configuration",
         "inherits": "Clang-Base",

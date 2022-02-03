@@ -23,6 +23,6 @@
 add_subdirectory(Window)
 add_subdirectory(IO)
 add_subdirectory(Renderer)
-add_subdirectory(Camera)
+#add_subdirectory(Camera)
 #add_subdirectory(Controller)
 add_subdirectory(Time)
